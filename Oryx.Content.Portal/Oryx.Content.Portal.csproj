@@ -6,7 +6,7 @@
     <Content Remove="wwwroot\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
