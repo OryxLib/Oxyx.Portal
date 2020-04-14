@@ -1,0 +1,10 @@
+@import './colors.scss';
+
+.version1{
+    .swiper-pagination-bullet-active{
+        background: color($colors,primary)
+    }
+    .swiper-wrapper{
+        height: 250px;
+    }
+}

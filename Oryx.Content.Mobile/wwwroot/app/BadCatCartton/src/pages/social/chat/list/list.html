@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <ion-buttons start>
+            <button
+                ion-button
+                (click)="dismiss()"
+            >
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons> -->
+    <ion-title>四次元结界</ion-title>
+    <!-- <ion-buttons end>
+            <button ion-button icon-only (click)="openSearch()">
+                <ion-icon name="search"></ion-icon>
+            </button>
+        </ion-buttons> -->
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <!-- <ion-col>
+            <ion-segment [(ngModel)]="chatGroup">
+                <ion-segment-button value="chatCard">会话</ion-segment-button>
+                <ion-segment-button value="contact">联系人</ion-segment-button>
+            </ion-segment>
+        </ion-col> -->
+  </ion-row>
+  <ion-row>
+    <ion-col col-12 text-left>
+      <ion-searchbar [(ngModel)]="searchUserName" (ionInput)="onInput($event)" debounce="300">
+      </ion-searchbar>
+      <div *ngIf="!searchUserName">
+        <ion-list>
+          <ion-item (click)="gotoSandbox()">
+            <ion-avatar item-start>
+              <img src='./assets/imgs/officialAvatar80.png'>
+            </ion-avatar>
+            <h2>
+              消息通知
+            </h2>
+            <h3>{{sandBoxMsg||'暂无通知'}}</h3>
+            <p>
+              {{updateDatetime(sandBoxMsgTimestamp)}}
+            </p>
+          </ion-item>
+          <ion-item *ngFor="let item of chatList" (click)="chatWithToUserInfo(item)">
+            <ion-avatar item-start>
+              <img [src]="getAnoterUserInfo(item.userAccountCollectoin,selfUserId).avatar">
+            </ion-avatar>
+            <h2>
+              {{getAnoterUserInfo(item.userAccountCollectoin,selfUserId).nickName}}
+            </h2>
+            <h3>{{item.chatMessage&&item.chatMessage.messageContent}}</h3>
+            <p>
+              {{updateDatetime(item.chatMessage&&item.chatMessage.timeStamp)}}
+            </p>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div>
+        <!-- <ion-row>
+                    <ion-col col-12 text-center>
+                        <div *ngFor="let item of chatUserLsit" (click)="chatWith(item)">
+                            {{item.nickName}}
+                        </div>
+                    </ion-col>
+                </ion-row> -->
+        <ion-list *ngIf="filterUserList&&filterUserList.length>0">
+          <ion-list-header>
+            好友
+          </ion-list-header>
+          <ion-item *ngFor="let item of filterUserList" (click)="chatWith(item)">
+            <ion-avatar item-start>
+              <img [src]="getAnoterUserInfo(item.userAccountCollectoin,selfUserId).avatar">
+            </ion-avatar>
+            <h2>
+              {{getAnoterUserInfo(item.userAccountCollectoin,selfUserId).nickName}}
+            </h2>
+            <h3>{{item.chatMessage&&item.chatMessage.messageContent}}</h3>
+            <p>
+              {{updateDatetime(item.chatMessage&&item.chatMessage.timeStamp)}}
+            </p>
+          </ion-item>
+        </ion-list>
+        <ion-list *ngIf="queryUserList&&queryUserList.length>0">
+          <ion-list-header>
+            陌生人
+          </ion-list-header>
+          <ion-item *ngFor="let item of queryUserList" (click)="chatWith(item)">
+            <ion-avatar item-start>
+              <img [src]="item.avatar">
+            </ion-avatar>
+            <h2>
+              {{item.nickName}}
+            </h2>
+            <!-- <h3>{{item.chatMessage.messageContent}}</h3>
+                        <p>
+                            {{updateDatetime(item.chatMessage.timeStamp)}}
+                        </p> -->
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

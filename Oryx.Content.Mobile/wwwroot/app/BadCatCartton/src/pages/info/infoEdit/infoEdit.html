@@ -1,0 +1,58 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>编辑资料</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list no-lines>
+    <!-- <ion-item ion-item>
+            <label for="avatarFile" item-start>
+                <ion-avatar>
+                    <img [src]='currentUserInfo.avatar||tmpImg||"/assets/imgs/avatar.png"'>
+                </ion-avatar>
+                <input id="avatarFile" type="file" value (change)='selectImg($event)'>
+            </label>
+        </ion-item> -->
+
+    <button ion-item>
+      <label for="avatarFile" item-start>
+        <ion-avatar>
+          <img [src]='tmpImg||currentUserInfo.avatar||"/assets/imgs/avatar.png"'>
+        </ion-avatar>
+        <input id="avatarFile" type="file" value (change)='selectImg($event)'>
+      </label>
+    </button>
+    <ion-item ion-item>
+      <ion-label>签名</ion-label>
+      <ion-textarea [(ngModel)]="currentUserInfo.feed"></ion-textarea>
+    </ion-item>
+    <ion-item ion-item>
+      <ion-label fixed>手机</ion-label>
+      <ion-input type="text" [(ngModel)]="currentUserInfo.mobilePhone" value></ion-input>
+      <button ion-button item-end>修改</button>
+    </ion-item>
+    <ion-item ion-item>
+      <ion-label fixed>昵称</ion-label>
+      <ion-input type="text" [(ngModel)]="currentUserInfo.nickName" value></ion-input>
+    </ion-item>
+    <ion-item ion-item>
+      <ion-label fixed>生辰</ion-label>
+      <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="currentUserInfo.birthDay"></ion-datetime>
+    </ion-item>
+    <ion-item ion-item>
+      <ion-label fixed>方位</ion-label>
+      <ion-input type="text" value [(ngModel)]="currentUserInfo.location"></ion-input>
+    </ion-item>
+    <ion-item ion-item>
+      <button ion-button (click)="saveChange()">
+        确认
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-content>

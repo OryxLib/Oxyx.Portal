@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lucene.Net" Version="4.8.0-beta00005" />
+    <PackageReference Include="Lucene.Net.Highlighter" Version="4.8.0-beta00005" />
+    <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00005" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jieba.Segmenter\Jieba.Segmenter.csproj" />
+    <ProjectReference Include="..\Oryx.JiebaLucene.NetCore\Oryx.JiebaLucene.NetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="stopwords.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

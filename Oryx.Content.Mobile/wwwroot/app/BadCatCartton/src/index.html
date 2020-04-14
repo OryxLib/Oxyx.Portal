@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>次元吖漫画社区</title>
+  <!-- <meta name="description" content=“坏坏猫漫画,漫画集合,韩国漫画"> -->
+  <meta name="description" content="坏坏猫漫画,漫画集合,韩国漫画,污力漫画集合.本子漫画集合">
+  <meta name="keywords" content="本子,绅士,污,漫,漫画,集合,漫画版">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4e8ef7">
+
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <!-- cordova.js required for cordova apps (remove if not needed) -->
+  <script src="cordova.js"></script>
+  <script src="https://browser.sentry-cdn.com/4.2.4/bundle.min.js" crossorigin="anonymous"></script>
+  <!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
+  <script src="/lib/wxjs.1.4.0.js">
+  </script>
+  <script>
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      jssdkInfo = JSON.parse(xhr.responseText);
+      wxInit(jssdkInfo);
+    }
+    xhr.open("get", "https://cartoon.oryxl.com/Wx/JsApiPackage?url=" + encodeURIComponent(window.location.href))
+    //xhr.open("get", "http://localhost:39499/Wx/JsApiPackage?url=" + window.location.href)
+    xhr.send();
+
+    function wxInit(sdkInfo) {
+      if (!window['wx'])
+        return;
+      wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: sdkInfo.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
+        timestamp: sdkInfo.timestamp, // 必填，生成签名的时间戳
+        nonceStr: sdkInfo.nonceStr, // 必填，生成签名的随机串
+        signature: sdkInfo.signature, // 必填，签名，见附录1
+        jsApiList: ['updateTimelineShareData', 'updateAppMessageShareData', 'onMenuShareTimeline',
+          'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo',
+          'onMenuShareQZone'
+        ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      });
+    }
+    Sentry.init({
+      dsn: 'https://5f06bdf0ccf24c7e91b6ee9c25f8f93d@sentry.io/1315660'
+    });
+
+  </script>
+  <script>
+    document.body.addEventListener('touchmove', function (e) {
+          if(e._isScroller){
+              return;
+          }
+          e.preventDefault(); 
+      }, {passive: false}); //passive 参数不能省略  
+  </script>
+
+  <!-- un-comment this code to enable service worker
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('service worker installed'))
+        .catch(err => console.error('Error', err));
+    }
+  </script>-->
+
+  <link href="build/main.css" rel="stylesheet">
+
+</head>
+
+<body class="version1">
+  <img src='assets/imgs/officialAvatar80.png' style="display:none;" />
+  <!-- Ionic's root component and where the app will load -->
+  <ion-app></ion-app>
+
+  <!-- The polyfills js is generated during the build process -->
+  <script src="build/polyfills.js"></script>
+
+  <!-- The vendor js is generated during the build process
+       It contains all of the dependencies in node_modules -->
+  <script src="build/vendor.js"></script>
+
+  <!-- The main bundle js is generated during the build process -->
+  <script src="build/main.js"></script>
+
+</body>
+
+</html>

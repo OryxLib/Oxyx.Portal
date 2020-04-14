@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <UserSecretsId>d27c0622-785e-4234-8346-7c52305413de</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Oryx.Common.Business\Oryx.Common.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Common.DataAccessor\Oryx.Common.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Content.Business\Oryx.Content.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Content.DataAccessor\Oryx.Content.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.DataPlatForm.Business\Oryx.DataPlatForm.Business.csproj" />
+    <ProjectReference Include="..\Oryx.DataPlatForm.DataAccessor\Oryx.DataPlatForm.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.DbBackup\Oryx.DbBackup.csproj" />
+    <ProjectReference Include="..\Oryx.DynamicPage\Oryx.DynamicPage.Middleware.csproj" />
+    <ProjectReference Include="..\Oryx.FacePP\Oryx.FacePP.csproj" />
+    <ProjectReference Include="..\Oryx.Shop.Business\Oryx.Shop.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Shop.DataAccessor\Oryx.Shop.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Social.Business\Oryx.Social.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Social.DataAccessor\Oryx.Social.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.UserAccount.Business\Oryx.UserAccount.Business.csproj" />
+    <ProjectReference Include="..\Oryx.UserAccount.DataAccessor\Oryx.UserAccount.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Utilities\Oryx.Utilities.csproj" />
+    <ProjectReference Include="..\Oryxl.DynamicPage.Business\Oryxl.DynamicPage.Business.csproj" />
+    <ProjectReference Include="..\Oryxl.DynamicPage.Model\Oryxl.DynamicPage.Model.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Pages\Account\BindAccount.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Pages\Account\Info.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Pages\Account\Login.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Pages\Account\Register.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Pages\Account\WxLogin.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resource\names.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties bower_1json__JSONSchema="http://json.schemastore.org/babelrc" /></VisualStudio></ProjectExtensions>
+</Project>

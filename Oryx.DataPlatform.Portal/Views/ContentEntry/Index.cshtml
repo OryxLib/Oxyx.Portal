@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewData["Title"] = "内容列表";
+}
+@section styles{
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+    @*<link href="~/lib/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/DataTables/datatables.css" rel="stylesheet" />
+}
+
+
+<div>
+    <span class="layui-breadcrumb">
+        <a href="/">首页</a>
+        <a href="/ContentEntry/">内容详情</a>
+        <a><cite>列表</cite></a>
+    </span>
+</div>
+<div style="margin:20px auto;">
+    <a href="~/ContentEntry/Addorupdate?pid=@Context.Request.Query["pid"]" class="layui-btn">添加内容</a>
+</div>
+
+<table id="contentDataTable" class="table table-hover table-bordered table-striped dataTable">
+    <thead>
+        <tr>
+            <th width="15%" scope="col">标题</th>
+            <th width="30%" scope="col">简述</th>
+            <th width="15%" scope="col">封面</th>
+            <th width="10%" scope="col">链接</th>
+            <th width="10%" scope="col">操作</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script src="~/DataTables/datatables.js"></script>
+    <script>
+        $("#contentDataTable").DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': false,
+            'autoWidth': false,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/ContentEntry/Table",
+                "type": "POST",
+                data: {
+                    param: {
+                        parentId: '@Context.Request.Query["pid"]'
+                    }
+                }
+            },
+            "columns": [
+
+
+                { "data": "title" },
+                { "data": "description" },
+                { "data": "mediaResource" },
+                { "data": "link" },
+                { "data": "operation" },
+                  { "data": "id" }
+            ],
+            "columnDefs": [
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        //var status = row['status'] == 1 ? "[下架]" : "[上架]";
+
+                        return "<span>" + row["title"] + "</span>"
+                    },
+                    "targets": 0
+                },
+                {
+                    "visible": true, "targets": 1
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        //return "<a href='/ContentManager/Contents/ContentDetail?pid=" + row["Id"] + "'>查看</a>"
+                        var imgPath = (row["mediaResource"] && row["mediaResource"].length > 0) ? row["mediaResource"][0].ActualPath : '';
+                        imgPath = imgSrcFilter(imgPath)
+                        return "<img src='" + imgPath + "' style='height:100px;'/>"
+                    },
+                    "targets": 2
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        return "<a href='/ContentManager/Contents/ContentDetail?pid=" + row["id"] + "'>查看</a>"
+                    },
+                    "targets": 3
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        return "<button type= 'submit' class='layui-btn layui-btn-danger' onclick=\"deleteCategory('" + row["id"] + "')\"> 删除</button >";
+                    },
+                    "targets": 4
+                },
+                {
+                    "visible": false,
+                    "searchable": true,
+                    "data": "@Context.Request.Query["Id"]",
+                    "targets": 5
+                }]
+        })
+
+        function imgSrcFilter(imgSrc) {
+            if (!imgSrc) {
+                return '';
+            }
+            return imgSrc.replace(/http\:\/\/i-1\.gumua\.com\//g, 'http://cartoon.oryxl.com/imgproxy/');
+        }
+
+        function deleteCategory(id) {
+            layui.use('layer', function () {
+                var layer = layui.layer;
+
+                $.ajax({
+                    url: '/ContentEntry/Delete',
+                    dataType: 'json',
+                    type: 'post',
+                    data: {
+                        id
+                    },
+                    success: function (res) {
+                        if (res.success) {
+                            layer.msg('删除成功!');
+                        } else {
+                            layer.msg('删除失败' + res.msg);
+                        }
+                        setTimeout(function () { window.location.reload(); }, 400);
+                    }
+                })
+
+            });
+        }
+    </script>
+
+
+}

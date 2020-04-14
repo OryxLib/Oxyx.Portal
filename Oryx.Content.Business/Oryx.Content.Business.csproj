@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Oryx.Common.Business\Oryx.Common.Business.csproj" />
+    <ProjectReference Include="..\Oryx.CommonDbOperation\Oryx.CommonDbOperation.csproj" />
+    <ProjectReference Include="..\Oryx.CommonInterface\Oryx.CommonInterface.csproj" />
+    <ProjectReference Include="..\Oryx.Content.DataAccessor\Oryx.Content.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Content.Model\Oryx.Content.Model.csproj" />
+    <ProjectReference Include="..\Oryx.Utilities\Oryx.Utilities.csproj" />
+    <ProjectReference Include="..\Oryx.ViewModel\Oryx.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.abstractions\2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore\2.0.2\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

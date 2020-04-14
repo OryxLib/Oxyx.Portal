@@ -1,0 +1,90 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start>
+            <button
+                ion-button
+                (click)="dismiss()"
+            >
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title></ion-title>
+
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col
+            col-12
+            text-center
+        >
+            <ion-textarea
+                placeholder="写下你的想法..."
+                [(ngModel)]="TextContent"
+                min="0"
+                max="140"
+                step
+                maxlength="140"
+            ></ion-textarea>
+            <div class="imgContainer">
+                <div
+                    class="imgWrap"
+                    *ngFor="let img of selectedImgList"
+                >
+                    <button
+                        ion-button
+                        outline
+                        class="imgWrapClose"
+                        (click)="removeImg(index)"
+                    >
+                        <ion-icon name="close"></ion-icon>
+                    </button>
+                    <img
+                        width="80"
+                        height="80"
+                        [src]="img.base64"
+                    >
+                </div>
+                <div class="imgWrap">
+                    <label
+                        ion-button
+                        icon-only
+                        outline
+                    >
+                        <ion-icon name="md-add"></ion-icon>
+                        <input
+                            outline
+                            type="file"
+                            
+                            (change)="fileSelected($event)"
+                        >
+                    </label>
+                </div>
+            </div>
+            <ion-tags-input
+                [(ngModel)]="tags"
+                placeholder="标签"
+                (onChange)="onTagInputChange($event)"
+            ></ion-tags-input>
+            <div>
+                <ion-item>
+                    <ion-label color="primary">#</ion-label>
+                    <ion-input
+                        [(ngModel)]="topic"
+                        placeholder="话题"
+                    ></ion-input>
+                </ion-item>
+            </div>
+            <button
+                ion-button
+                round
+                outline
+                (click)="sendPostEntry()"
+            >
+                发表
+            </button>
+        </ion-col>
+    </ion-row>
+
+</ion-content>

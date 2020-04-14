@@ -1,0 +1,11 @@
+content-detail-page {
+  .imgContainer {
+    font-size: 0;
+  }
+
+  ion-img {
+    width: 100%;
+    // min-height: 100px; 
+    display: initial !important;
+  }
+}

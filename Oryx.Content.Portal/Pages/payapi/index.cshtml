@@ -1,0 +1,28 @@
+﻿@page
+@model Oryx.Content.Portal.Pages.payapi.IndexModel
+@{
+    ViewData["Title"] = "index";
+}
+
+<h2>支付页面</h2>
+
+<form id="mainForm" action="https://pay.paysapi.com/" method="post">
+    <input type="hidden" name="uid" value="@Model.uid" />
+    <input type="hidden" name="istype" value="@Model.istype" />
+    <input type="hidden" name="price" value="@Model.price" />
+    <input type="hidden" name="notify_url" value="@Model.notifyUrl" />
+    <input type="hidden" name="return_url" value="@Model.returnUrl" />
+    <input type="hidden" name="orderid" value="@Model.OrderId" />
+    <input type="hidden" name="orderuid" value="@Model.OrderUId" />
+    <input type="hidden" name="goodsname" value="@Model.GoodsName" />
+    <input type="hidden" name="key" value="@Model.Key" />
+</form>
+
+<div>订单生成中....</div>
+
+<script>
+    setTimeout(function(){
+     document.querySelector('#mainForm').submit();
+    },1000)
+</script>
+

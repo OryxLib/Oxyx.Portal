@@ -1,0 +1,101 @@
+﻿@page
+@model OryxOryx.DataPlatform.Portal.Pages.Account.LoginModel
+@{
+    Layout = "GlobalLayout";
+    ViewData["Title"] = "Login";
+}
+
+@section styles{
+    <link href="~/css/loading.css" rel="stylesheet" />
+}
+
+
+<div class="login-box" id="appLogin">
+    <div class="login-logo">
+        <a href="#">
+            <b>PageTechs</b>  Admin
+        </a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+
+        <form id="mainForm">
+            <div class="form-group has-feedback">
+                <input type="text"
+                       id="userName"
+                       class="form-control"
+                       name="userName"
+                       placeholder="UserName">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password"
+                       id="password"
+                       class="form-control"
+                       name="password"
+                       placeholder="Password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        @*<label>
+                                <input type="checkbox">
+                                Remember Me
+                            </label>*@
+                        <a href="/Account/Register">Register</a>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="button"
+                            id="btnLogin"
+                            @@click="login"
+                            class="btn btn-primary btn-block btn-flat">
+                        Sign In
+                    </button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+        @*<div class="social-auth-links text-center">
+                <p>- OR -</p>
+                <a class="btn btn-success" href="/Account/WxLogin?url=@Model.ReturnUrl">微信登录</a>
+            </div>*@
+    </div>
+    <!-- /.login-box-body -->
+</div>
+
+@section scripts{
+    <script src="~/js/jqueryLoading.js"></script>
+    <script>
+        $('#btnLogin').click(function () {
+            $('#mainForm').loading('start');
+            $.ajax({
+                url: '/auth/login',
+                dataType: 'json',
+                contentType: 'application/json',
+                type: 'post',
+                data: JSON.stringify({
+                    userName: $('#userName').val(),
+                    password: $('#password').val()
+                }),
+                success: function (res) {
+                    if (res.success) {
+                        window.location = '@Model.ReturnUrl' || '/';
+                    } else {
+                        alert('Incorrect Login , please try again')
+                    }
+                    $('#mainForm').loading('stop');
+                },
+                error: function () {
+                    alert('Incorrent Login , please try again')
+                    $('#mainForm').loading('stop'); 
+                }
+            })
+        })
+    </script>
+}
+

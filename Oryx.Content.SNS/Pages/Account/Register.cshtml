@@ -1,0 +1,76 @@
+﻿@page
+@model Oryx.Content.Portal.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>注册</h2>
+
+<div id="appRegister">
+    <form class="form-horizontal" id="appVotingCreate">
+        <fieldset>
+            <legend>注册</legend>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" placeholder="用户名" v-model="userName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <input type="password" class="form-control" placeholder="密码" v-model="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <input type="password" class="form-control" placeholder="重复密码" v-model="doublePassword">
+                </div>
+            </div>
+            <div class="form-group" v-if="!isLnnVip">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" placeholder="邀请码" v-model="inviteOrigin">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" v-on:click="login()">注册</button>
+            <a href="/Account/Login">返回登录</a>
+        </fieldset>
+    </form>
+</div>
+
+
+@section scripts{
+    <script>
+        new Vue({
+            el: '#appRegister',
+            data: {
+                userName: '',
+                password: '',
+                doublePassword: '',
+                inviteOrigin: '',
+                isLnnVip: false
+            },
+            methods: {
+                created: function () {
+                    if (window.location.href.query.indexOf('lnn') > -1) {
+                        this.isLnnVip = true
+                        this.inviteOrigin = "lnn"
+                    }
+                },
+                login: function () {
+                    if (!this.password || this.password != this.doublePassword) {
+                        alert('两次密码输入不一致')
+                        return;
+                    }
+                    this.$http.post('/auth/createuser', {
+                        userName: this.userName,
+                        password: this.password,
+                        inviteOrigin: this.inviteOrigin
+                    }).then(function (res) {
+                        if (res.data.success) {
+                            window.location = '/'
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+}

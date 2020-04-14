@@ -1,0 +1,37 @@
+﻿{
+  "host": [
+    "47.100.232.68",
+    "47.100.62.184",
+    "47.100.245.61",
+    "106.15.183.61",
+    "47.100.181.213"
+  ],
+  "cmd": [
+    //download
+    "groupadd mysql",
+    "useradd mysql -g mysql",
+    "wget -P /usr/local/src https://dev.mysql.com/get/Downloads/MySQL-Cluster-7.5/mysql-cluster-gpl-7.5.10-linux-glibc2.12-x86_64.tar.gz",
+    "tar -zxf mysql-cluster-gpl-7.5.4.tar.gz",
+    "mv mysql-cluster-gpl-7.5.4 mysql",
+    "chown -R mysql:mysql mysql",
+    "su - mysql",
+    "[writeConfig]",
+    "scripts/mysql_install_db --user=mysql --datadir=/usr/local/mysql/data",
+    "mkdir /var/lib/mysql-cluster",
+    "cd /var/lib/mysql-cluster"
+    ////download
+    //"wget http://dev.mysql.com/get/Downloads/MySQL-Cluster-7.4/MySQL-Cluster-gpl-7.4.10-1.el7.x86_64.rpm-bundle.tar",
+    //"tar -xvf MySQL-Cluster-gpl-7.4.10-1.el7.x86_64.rpm-bundle.tar",
+    ////install
+    //"yum -y install perl-Data-Dumper",
+    //"yum -y remove mariadb-libs",
+    ////install cluster
+    //"cd ~",
+    //"rpm -Uvh MySQL-Cluster-client-gpl-7.4.10-1.el7.x86_64.rpm",
+    //"rpm -Uvh MySQL-Cluster-server-gpl-7.4.10-1.el7.x86_64.rpm",
+    //"rpm -Uvh MySQL-Cluster-shared-gpl-7.4.10-1.el7.x86_64.rpm",
+    ////config
+    //"mkdir -p /var/lib/mysql-cluster",
+    //"cd /var/lib/mysql-cluster"
+  ]
+}

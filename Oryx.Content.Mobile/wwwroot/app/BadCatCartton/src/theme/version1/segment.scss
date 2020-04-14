@@ -1,0 +1,19 @@
+@import"colors.scss";
+
+.version1 {
+  .segment {
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 30px;
+    border: color($colors, primary) 1px solid;
+  }
+
+  .segment-activated {
+    background-color: color($colors, primary);
+  }
+
+  ion-segment-button {
+    border: none !important;
+    border-radius: 30px !important;
+  }
+}

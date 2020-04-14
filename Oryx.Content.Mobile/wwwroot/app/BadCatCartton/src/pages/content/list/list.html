@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{tagName}}列表</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="contentList&&contentList.length>0">
+    <ion-item *ngFor="let item of contentList" (click)="gotoDetail(item)">
+      <ion-thumbnail item-start>
+        <img *ngIf="item.mediaResource&&item.mediaResource.length>0&&item.mediaResource[0];else defaultText" [src]="filterImgPath(item.mediaResource[0].actualPath)">
+        <ng-template #defaultText>
+          <div class='imgDefaultConatainer'>
+            <p>次元吖!</p>
+            <p class="label-name">{{item.name}}</p>
+          </div>
+        </ng-template>
+      </ion-thumbnail>
+      <h2>{{item.name}}</h2>
+      <p>{{item.description}}</p>
+      <ion-icon clear item-end name="arrow-forward"></ion-icon>
+    </ion-item>
+  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="light" icon-start small *ngIf="contentList&&contentList.length>0" (click)="goPrev()">
+          <ion-icon name="arrow-back"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col inset>
+        <ion-input type="number" [(ngModel)]="pageIndex" (keyup.enter)="changePage()"></ion-input>
+        <ion-label item-end>/{{pageSum}}</ion-label>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="light" icon-end small *ngIf="contentList&&contentList.length>0" (click)="goNext()">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

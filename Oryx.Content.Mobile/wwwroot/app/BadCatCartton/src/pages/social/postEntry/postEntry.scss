@@ -1,0 +1,48 @@
+postEntry-create-page {
+  ion-textarea textarea {
+    height: 100px;
+  }
+
+  .imgContainer {
+    text-align: left;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .imgWrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .imgWrap input {
+    display: none;
+  }
+
+
+  .imgWrap .imgWrapClose {
+    position: absolute;
+    right: -9px;
+    top: -10px;
+    border-radius: 20px;
+    background-color: black;
+    border: #eee 1px solid;
+    margin: 5px;
+  }
+
+  .alert-wrapper * {
+    color: black !important;
+  }
+
+  .loading-portal * {
+    color: black !important;
+  }
+
+  ion-tags-input {
+    text-align: left;
+  }
+}

@@ -1,0 +1,167 @@
+﻿@page
+@model Oryx.DataPlatform.Portal.Pages.ContentManager.Banners.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addModal">添加</button>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col">Link</th>
+            <th scope="col">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var banner in Model.BannerList)
+        {
+            <tr>
+                <th scope="row">@banner.Title</th>
+                <td>@banner.Description</td>
+                <td><img src="@banner.Image" /></td>
+                <td><a href="@banner.Link" target="_blank">查看</a></td>
+                <td>
+                    <a href="/ContentManager/Banners/Edit?Id=@banner.Id" target="_blank">查看</a>
+                    <a href="/Banners/Delete?Id=@banner.Id" target="_blank">删除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="mainForm">
+                    <fieldset>
+                        <legend>Add Banner</legend>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="Title">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Description</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="Description">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Image</label>
+                            <div class="col-sm-10">
+                                <div class="selectedImageContainer">
+                                    <img id="selectedImg" style="width:100%;" />
+                                </div>
+                                <label class="selectedImgControl">
+                                    <span class="btn btn-primary text-center">
+                                        上传图片
+                                    </span>
+                                    <input type="file" name="ImageFile" onchange="addImage(this)" style="display:none;" />
+                                    <input type="hidden" name="Image" id="imgValue" value="" />
+                                </label>
+                                @*<input type="text" class="form-control" name="Image">*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">链接</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="Link">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="Title">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveBanner()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="https://unpkg.com/qiniu-js@2.1.2/dist/qiniu.min.js"></script>
+    <script>
+        var baseUrl = 'https://mioto.milbit.com';
+        var fileObj = {
+            blob: null,
+            name: new Date() - 0 + ".jpg",
+            next: function (res) {
+            },
+            error: function (res) {
+                console.log(res)
+            },
+            complete: function (res) {
+                $('#imgValue').val(baseUrl + "/" + res.key)
+                $.ajax({
+                    url: '/Banners/New',
+                    data: $("#mainForm").serialize(),
+                    dataType: 'json',
+                    type: 'post',
+                    success: function (res) {
+                        if (res.Success) {
+                            window.location = window.location;
+                        }
+                    }
+                })
+            }
+        }
+        function addImage(e) {
+            var blob = e.files[0];
+            fileObj.blob = blob;
+            var _this = this;
+            converToBase64(blob, function (dataUrl) {
+                selectedImg.src = dataUrl;
+            })
+        }
+        function converToBase64(file, cb) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+                cb && cb(e.target.result)
+            }
+            fileReader.readAsDataURL(file);
+        }
+
+        function UploadFile(file) {
+            var token = '';
+            $.ajax({
+                url: "/Pic/Token",
+                dataType: "json",
+                type: "get",
+                async: false,
+                success: function (res) {
+                    token = res.Data;
+                }
+            })
+            var observer = qiniu.upload(file.blob, file.name, token, null, {
+                useCdnDomain: true,
+                region: qiniu.region.z1
+            });
+            observer.subscribeAction({
+                next: file.next,
+                error: file.error,
+                complete: file.complete
+            })
+        }
+        function saveBanner() {
+            UploadFile(fileObj);
+        }
+    </script>
+}

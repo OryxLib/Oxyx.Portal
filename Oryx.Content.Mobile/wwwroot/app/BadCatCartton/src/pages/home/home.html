@@ -1,0 +1,317 @@
+<div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
+  <div class="flb">
+    <div class="Aligner-item Aligner-item--top"></div>
+    <img src="/assets/imgs/banner.jpg">
+    <div class="Aligner-item Aligner-item--bottom"></div>
+  </div>
+</div>
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col col-3><img class="logo" src="/assets/imgs/ciyuanyalogo.png"></ion-col>
+      <ion-col col-9>
+        <ion-searchbar right [(ngModel)]="queryKey" placeholder='搜索' (keyup.enter)="onSearchByQuery($event)">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid no-padding>
+    <ion-row>
+      <ion-col col-12>
+        <ion-slides pager loop autoplay="5000" *ngFor=" let item of bannerList">
+          <ion-slide>
+            <img [src]="item.image">
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+    <!-- <button ion-button (click)="wxLogin()">微信登录</button>
+        <button ion-button (click)="wxShare()">微信分享链接</button>
+        <button ion-button (click)="wbLogin()">微博登录</button>
+        <button ion-button (click)="wbShare()">微博分享</button> -->
+    <ion-row margin>
+      <ion-col col-12 text-center class="nav-tab">
+        <ion-segment [(ngModel)]="contentSplit" color="light-text">
+          <ion-segment-button value="category">
+            推荐
+          </ion-segment-button>
+          <ion-segment-button value="news">
+            资讯
+          </ion-segment-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+    <div [ngSwitch]="contentSplit">
+      <div *ngSwitchCase="'category'">
+        <!-- <ion-row class="check-list">
+          <ion-col col-3 class="check-item left-head">
+            状态
+          </ion-col>
+          <ion-col col-9 class="check-item"> 
+            <button ion-button [ngClass]="{'active':activeDict.status.End}" (click)="checkCat('End','status')" color="light-text">完结</button>
+            <button ion-button [ngClass]="{'active':activeDict.status.Continue}" (click)="checkCat('Continue','status')"
+              color="light-text">连载</button>
+          </ion-col>
+        </ion-row> -->
+        <ion-row class="check-list">
+          <ion-col col-2 class="check-item left-head">
+            题材
+          </ion-col>
+          <ion-col col-10 class="check-item">
+            <!-- 1.可多选;2.默认全选 -->
+            <button ion-button [ngClass]="{'active':activeDict.type['全部']}" (click)="checkCat('全部','type')" color="light-text">
+              全部</button>
+            <button ion-button [ngClass]="{'active':activeDict.type['爱情']}" (click)="checkCat('爱情','type')" color="light-text">
+              爱情</button>
+            <button ion-button [ngClass]="{'active':activeDict.type['热血']}" (click)="checkCat('热血','type')" color="light-text">热血</button>
+            <button ion-button [ngClass]="{'active':activeDict.type['恐怖']}" (click)="checkCat('恐怖','type')" color="light-text">恐怖</button>
+            <button ion-button [ngClass]="{'active':activeDict.type['游戏']}" (click)="checkCat('游戏','type')" color="light-text">游戏</button>
+            <button ion-button [ngClass]="{'active':activeDict.type['耽美']}" (click)="checkCat('耽美','type')" color="light-text">耽美</button>
+          </ion-col>
+        </ion-row>
+
+        <div class="defaultContentDisplay" *ngIf="!checkTxt;else checkedContentDisplay">
+          <!-- 最近 -->
+          <div class="container content-thumbnil">
+            <div class="content-item" text-center *ngFor="let item of recentContentList">
+              <div (click)="itemSelected(item.categories)">
+                <div class="img-container">
+                  <img *ngIf="item.categories.mediaResource&&item.categories.mediaResource.length>0;else defaultText"
+                    [src]="filterImgPath(item.categories.mediaResource&&item.categories.mediaResource.length>0&&item.categories.mediaResource[0].actualPath)">
+                  <ng-template #defaultText>
+                    <div class='imgDefaultConatainer'>
+                      <p>次元吖!</p>
+                      <p class="label-name">{{item.categories.name}}</p>
+                    </div>
+                  </ng-template>
+                </div>
+                <p class="label-name">{{item.categories.name}}</p>
+              </div>
+            </div>
+          </div>
+          <!-- Hot分类 -->
+          <ion-row *ngIf="hotContentList&&hotContentList.length>0">
+            <ion-col col-12>
+              <ion-card>
+                <ion-card-header (click)="goto('hot')">
+                  Hot~
+                  <ion-icon name="arrow-forward"></ion-icon>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-row>
+                    <ion-col col-4 text-center *ngFor="let item of hotContentList">
+                      <div (click)="itemSelected(item)">
+                        <!-- <img [src]="item.mediaResource[0].actualPath"> -->
+                        <p class="label-name">{{item.name}}</p>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+
+          </ion-row>
+          <!-- Hot分类 End -->
+          <div class="forder-container">
+            <!-- 恋爱分类 -->
+
+            <div *ngIf="contentList&&contentList.length>0" class="title-container">
+              <span class="subtitle" (click)="goto('恋爱')">恋爱</span>
+              <span class="see-more" (click)="goto('恋爱')">更多>></span>
+            </div>
+            <ion-row *ngIf="contentList&&contentList.length>0">
+              <ion-col col-12 class="imgs">
+                <div class="container content-thumbnil">
+                  <div class="content-item" text-center *ngFor="let item of contentList">
+                    <div (click)="itemSelected(item)">
+                      <div class="img-container">
+                        <img *ngIf="item.mediaResource&&item.mediaResource.length>0&&item.mediaResource[0];else defaultText"
+                          [src]="filterImgPath(item.mediaResource[0].actualPath)">
+                        <ng-template #defaultText>
+                          <div class='imgDefaultConatainer'>
+                            <p>次元吖!</p>
+                            <p class="label-name">{{item.name}}</p>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <p class="label-name">{{item.name}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+            <!-- 恋爱分类 end -->
+          </div>
+          <div class="forder-container">
+            <!-- 恐怖系列 -->
+            <div *ngIf="kongbuContentList&&kongbuContentList.length>0" class="title-container">
+              <span class="subtitle" (click)="goto('恐怖')">恐怖系列</span>
+              <span class="see-more" (click)="goto('恐怖')">更多>></span>
+
+            </div>
+            <ion-row *ngIf="kongbuContentList&&kongbuContentList.length>0">
+              <ion-col col-12 class="imgs">
+                <div class="container content-thumbnil">
+                  <div class="content-item" text-center *ngFor="let item of kongbuContentList">
+                    <div (click)="itemSelected(item)">
+                      <div class="img-container">
+                        <img *ngIf="item.mediaResource&&item.mediaResource.length>0&&item.mediaResource[0];else defaultText"
+                          [src]="filterImgPath(item.mediaResource[0].actualPath)">
+                        <ng-template #defaultText>
+                          <div class='imgDefaultConatainer'>
+                            <p>次元吖!</p>
+                            <p class="label-name">{{item.name}}</p>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <p class="label-name">{{item.name}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+            <!-- 恐怖系列 end -->
+          </div>
+          <div class="forder-container">
+            <!-- 日漫系列 -->
+            <div *ngIf="japanContentList&&japanContentList.length>0" class="title-container">
+              <span class="subtitle" (click)="goto('日漫')">日漫系列</span>
+              <span class="see-more" (click)="goto('日漫')">更多>></span>
+            </div>
+            <ion-row *ngIf="japanContentList&&japanContentList.length>0">
+              <ion-col col-12 class="imgs">
+                <div class="container content-thumbnil">
+                  <div class="content-item" text-center *ngFor="let item of japanContentList">
+                    <div (click)="itemSelected(item)">
+                      <div class="img-container">
+                        <img *ngIf="item.mediaResource&&item.mediaResource.length>0&&item.mediaResource[0];else defaultText"
+                          [src]="filterImgPath(item.mediaResource[0].actualPath)">
+                        <ng-template #defaultText>
+                          <div class='imgDefaultConatainer'>
+                            <p>次元吖!</p>
+                            <p class="label-name">{{item.name}}</p>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <p class="label-name">{{item.name}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+            <!-- 日漫系列 end -->
+          </div>
+          <div class="forder-container">
+
+            <!-- 禁书分类 -->
+            <div *ngIf="limitContentList&&limitContentList.length>0" class="title-container">
+              <span class="subtitle" (click)="goto('禁书')">禁书系列</span>
+              <span class="see-more" (click)="goto('禁书')">更多>></span>
+
+            </div>
+            <ion-row *ngIf="limitContentList&&limitContentList.length>0">
+              <ion-col col-12 class="imgs">
+                <div class="container content-thumbnil">
+                  <div class="content-item" text-center *ngFor="let item of limitContentList">
+                    <div (click)="itemSelected(item)">
+                      <div class="img-container">
+                        <img *ngIf="item.mediaResource&&item.mediaResource.length>0&&item.mediaResource[0];else defaultText"
+                          [src]="filterImgPath(item.mediaResource[0].actualPath)">
+                        <ng-template #defaultText>
+                          <div class='imgDefaultConatainer'>
+                            <p>次元吖!</p>
+                            <p class="label-name">{{item.name}}</p>
+                          </div>
+                        </ng-template>
+                      </div>
+                      <p class="label-name">{{item.name}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+            <!-- 禁书分类 end -->
+          </div>
+
+        </div>
+        <ng-template #checkedContentDisplay>
+          <div>
+            <div class="forder-container">
+              <!-- 漫画筛选 -->
+              <div *ngIf="checkTxt||checkedContentList&&checkedContentList.length>0" class="title-container">
+                <span (click)="goto(checkTxt)">{{checkTxt}}</span>
+              </div>
+              <ion-row *ngIf="checkedContentList&&checkedContentList.length>0;else defaultCheckContentList">
+                <ion-col col-12 class="imgs">
+                  <div class="container content-thumbnil">
+                    <div class="content-item" text-center *ngFor="let item of checkedContentList">
+                      <div (click)="itemSelected(item)">
+                        <div class="img-container">
+                          <img *ngIf="item.mediaResource&&item.mediaResource.length>0&&item.mediaResource[0];else defaultText"
+                            [src]="filterImgPath(item.mediaResource[0].actualPath)">
+                          <ng-template #defaultText>
+                            <div class='imgDefaultConatainer'>
+                              <p>次元吖!</p>
+                              <p class="label-name">{{item.name}}</p>
+                            </div>
+                          </ng-template>
+                        </div>
+                        <p class="label-name">{{item.name}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ng-template #defaultCheckContentList>
+                <div class="defaultCheckContentList"></div>
+              </ng-template>
+              <!-- 漫画筛选 end -->
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+      <div *ngSwitchCase="'news'">
+        <ion-list>
+          <ion-item *ngFor="let item of newslist">
+            <div class="article-head" (click)='gotoDetail(item.id)'>
+              <img *ngIf='item.mediaResource&&item.mediaResource.length>0' [src]="filterImgPath(item.mediaResource[0].actualPath)" />
+              <h4> {{item.title}} </h4>
+            </div>
+            <p>
+              {{item.description}}
+            </p>
+            <small>{{item.createTime.split('T')[0]}}</small>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+    <!-- 最近阅读分类 -->
+    <!-- <ion-row *ngIf="recentContentList&&recentContentList.length>0">
+            <ion-col col-12>
+                <ion-card>
+                    <ion-card-header (click)="goto('recent')">
+                        最近阅读
+                        <ion-icon name="arrow-forward"></ion-icon>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-row>
+                            <ion-col col-4 text-center *ngFor="let item of recentContentList">
+                                <div (click)="itemSelected(item.categories)"> 
+                                    <p class="label-name">{{item.categories.name}}</p>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+
+        </ion-row> -->
+    <!-- 最近阅读分类 End -->
+
+
+  </ion-grid>
+</ion-content>

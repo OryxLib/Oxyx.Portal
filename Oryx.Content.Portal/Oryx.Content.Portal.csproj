@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Oryx.Common.Business\Oryx.Common.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Common.DataAccessor\Oryx.Common.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Common.Model\Oryx.Common.Model.csproj" />
+    <ProjectReference Include="..\Oryx.CommonDbOperation\Oryx.CommonDbOperation.csproj" />
+    <ProjectReference Include="..\Oryx.Content.Business\Oryx.Content.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Content.DataAccessor\Oryx.Content.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Content.Model\Oryx.Content.Model.csproj" />
+    <ProjectReference Include="..\Oryx.DistributedManager\Oryx.DistributedManager.csproj" />
+    <ProjectReference Include="..\Oryx.DynamicPage\Oryx.DynamicPage.Middleware.csproj" />
+    <ProjectReference Include="..\Oryx.FacePP\Oryx.FacePP.csproj" />
+    <ProjectReference Include="..\Oryx.OpenAuth\Oryx.OpenAuth.csproj" />
+    <ProjectReference Include="..\Oryx.RabbitMQService\Oryx.RabbitMQService.csproj" />
+    <ProjectReference Include="..\Oryx.Shop.Business\Oryx.Shop.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Shop.Model\Oryx.Shop.Model.csproj" />
+    <ProjectReference Include="..\Oryx.Social.Business\Oryx.Social.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Social.Model\Oryx.Social.Model.csproj" />
+    <ProjectReference Include="..\Oryx.UserAccount.Business\Oryx.UserAccount.Business.csproj" />
+    <ProjectReference Include="..\Oryx.UserActivity.Business\Oryx.UserActivity.Business.csproj" />
+    <ProjectReference Include="..\Oryx.Utilities\Oryx.Utilities.csproj" />
+    <ProjectReference Include="..\Oryx.WebSocket\Oryx.WebSocket.csproj" />
+    <ProjectReference Include="..\Oryx.Wx.JsSdk\Oryx.Wx.JsSdk.csproj" />
+    <ProjectReference Include="..\Oryx.Wx.Pay\Oryx.Wx.Pay.csproj" />
+    <ProjectReference Include="..\Oryxl.Wx.WebApp\Oryxl.Wx.WebApp.csproj" />
+    <ProjectReference Include="..\Social.WebSocket\Social.WebSocket.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resource\names.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

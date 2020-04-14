@@ -1,0 +1,31 @@
+﻿@page "{cid?}"
+@model Oryx.Content.Portal.Pages.Contents.CategoryDetailModel
+@{
+    ViewData["Title"] = Model.Categories.Name;
+}
+
+<h2>@Model.Categories.Name</h2>
+
+
+<div class="row">
+    <div class="col-md-8 col-sm-12">
+        <div class="d-flex justify-content-around flex-wrap">
+            @foreach (var item in Model.Categories.ChildrenCategories.OrderBy(x => x.Name).ThenBy(x => x.CreateTime))
+            {
+                <a href="/Contents/ContentDetail?cid=@(item.ContentList?[0].Id)" class="btn btn-primary">@item.Name</a>
+            }
+            @foreach (var item in Model.Categories.ContentList.OrderBy(x => x.Order))
+            {
+
+                string prefixPath = string.Empty;
+                string imgPath = string.Empty;
+                if (item.MediaResource != null && item.MediaResource.Count > 0)
+                {
+                    prefixPath = item.MediaResource[0].ActualPath.Contains("mioto.milbit.com") ? "" : "http://mioto.milbit.com/";
+                    imgPath = item.MediaResource[0].ActualPath;
+                }
+                <a href="/Contents/ContentDetail?cid=@(item.Id)" class="btn btn-primary">@item.Title</a>
+            }
+        </div>
+    </div>
+</div>

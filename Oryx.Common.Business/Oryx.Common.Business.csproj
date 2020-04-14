@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Oryx.Common.DataAccessor\Oryx.Common.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Common.Model\Oryx.Common.Model.csproj" />
+    <ProjectReference Include="..\Oryx.Utilities\Oryx.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

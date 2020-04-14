@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Oryx.Common.Business\Oryx.Common.Business.csproj" />
+    <ProjectReference Include="..\Oryx.CommonDbOperation\Oryx.CommonDbOperation.csproj" />
+    <ProjectReference Include="..\Oryx.Social.DataAccessor\Oryx.Social.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Social.Model\Oryx.Social.Model.csproj" />
+    <ProjectReference Include="..\Oryx.Utilities\Oryx.Utilities.csproj" />
+    <ProjectReference Include="..\Oryx.ViewModel\Oryx.ViewModel.csproj" />
+    <ProjectReference Include="..\Social.WebSocket\Social.WebSocket.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection.abstractions\2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

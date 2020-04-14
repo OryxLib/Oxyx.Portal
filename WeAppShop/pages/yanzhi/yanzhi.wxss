@@ -1,0 +1,26 @@
+/* pages/yanzhi/yanzhi.wxss */
+
+.container view.wrap {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+camera {
+  margin: 20px auto;
+  height: 960rpx;
+}
+
+image {
+  height: 960rpx;
+}
+
+button {
+  height: 64px;
+  width: 64px;
+  color: darkcyan;
+  padding-top: 15px;
+  display: inline-block;
+}

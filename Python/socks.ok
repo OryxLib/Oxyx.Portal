@@ -1,0 +1,23 @@
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2018-08-28 11:00 DST
+Nmap scan report for mx2.tropicknits.com (41.188.61.60)
+Host is up (0.51s latency).
+PORT   STATE    SERVICE
+80/tcp filtered http
+
+Nmap scan report for static.122.108.47.78.clients.your-server.de (78.47.108.122)
+Host is up (0.32s latency).
+PORT   STATE SERVICE
+80/tcp open  http
+
+Nmap scan report for h2277578.stratoserver.net (81.169.137.196)
+Host is up (0.33s latency).
+PORT   STATE SERVICE
+80/tcp open  http
+
+Nmap scan report for h2790757.stratoserver.net (81.169.141.196)
+Host is up (0.32s latency).
+PORT   STATE SERVICE
+80/tcp open  http
+
+Nmap done: 64 IP addresses (4 hosts up) scanned in 13.47 seconds

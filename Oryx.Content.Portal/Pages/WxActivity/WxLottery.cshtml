@@ -1,0 +1,57 @@
+﻿@page
+@model Oryx.Content.Portal.Pages.WxActivity.WxLotteryModel
+@{
+    ViewData["Title"] = "在线抽奖";
+}
+@section styles{
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        form, .body-content, body, html {
+            height: 100%;
+        }
+
+        input {
+            background-color: white;
+        }
+
+        .ctrlGroup {
+            padding-top: 80%;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        .btnMain {
+            width: 20rem;
+            height: 4rem;
+            box-shadow: none;
+        }
+    </style>
+}
+@if (Model.HasPlay)
+{
+    <div style="height:100%;width:100%;background-image:url('/images/lotteryBgResult.png');background-size:100%;"></div>
+}
+else
+{
+    @using (Html.BeginForm(FormMethod.Post))
+    {
+        <div style="height:100%;width:100%;background-image:url('/images/lotteryBg.png');background-size:100%;">
+            <div class="form-group ctrlGroup">
+                <label class="label">
+                    @*<span>姓名</span>*@
+                    <input class="form-control" type="text" name="name" placeholder="姓名" />
+                </label>
+                <label class="label">
+                    @*<span>电话</span>*@
+                    <input class="form-control" type="text" name="phone" placeholder="电话" />
+                </label>
+            </div>
+            <div style="width:100%;text-align:center;margin-top:1rem;">
+                <button type="submit" class="btn btn-success btnMain" style="background-image:url('/images/btn.png');background-repeat:no-repeat;background-size:100%;"></button>
+            </div>
+        </div>
+    }
+}

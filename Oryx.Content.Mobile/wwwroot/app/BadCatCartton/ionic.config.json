@@ -1,0 +1,7 @@
+{
+  "name": "BadCatCartton",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

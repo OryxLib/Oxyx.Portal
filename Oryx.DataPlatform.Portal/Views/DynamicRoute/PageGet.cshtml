@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "PageGet";
+}
+
+@model Oryxl.DynamicPage.Model.ReponseEntry;
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Page Entry</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(FormMethod.Post, new { Class = "form-horizontal" }))
+    {
+        var properties = Model.GetType().GetProperties();
+        @*<button>提交</button>*@
+        <div class="box-body">
+            @foreach (var prop in properties)
+            {
+                <div class="form-group">
+                    @switch (prop.Name.ToLower())
+                    {
+                        default:
+                            <label class="col-sm-2 control-label">@prop.Name</label>
+                            <div class="col-sm-10">
+                                <span>@prop.Name</span>:<span>@prop.GetValue(Model)</span>
+                            </div>
+                            break;
+                    }
+                </div>
+            }
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:history.go(-1);">Go back</button>
+            <button type="submit" class="btn btn-info pull-right">Save Edit</button>
+        </div>
+    }
+</div>
+

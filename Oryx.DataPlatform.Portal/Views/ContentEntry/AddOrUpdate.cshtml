@@ -1,0 +1,389 @@
+﻿@using Oryx.Content.Business;
+@using Microsoft.Extensions.DependencyInjection;
+@{
+    var contentBusiness = Context.RequestServices.GetService<ContentBusiness>();
+
+    var catData = contentBusiness.GetCategoryById(Guid.Parse(Context.Request.Query["pid"])).Result;
+    ViewData["Title"] = "添加内容";
+
+}
+@using System.Reflection;
+@functions {
+public string getVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        return prop.GetValue(dataModel).ToString();
+    }
+    else
+    {
+        return "";
+    }
+}
+public string getCheckBoxVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        var value = prop.GetValue(dataModel).ToString();
+        if (value == "True")
+        {
+            return "checked";
+        }
+
+    }
+    return "";
+}
+}
+
+@using (Html.BeginForm(FormMethod.Post, new { id = "mainForm", Class = "layui-form" }))
+{
+    var properties = (ViewData["DataType"] as Type).GetProperties();
+    <div class="layui-form-item">
+        <label class="layui-form-label">当前分类</label>
+        <div class="layui-input-block">
+            <div class="layui-field-box">
+                @catData.Category.Name
+                <input type="hidden" name="categoryId" value="@Context.Request.Query["pid"]" />
+            </div>
+        </div>
+    </div>
+    @foreach (var prop in properties)
+    {
+        <div class="form-group">
+            @switch (prop.Name.ToLower())
+            {
+                case "id":
+                    <input type="hidden" id="valId" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                    break;
+                case "mediaresource":
+
+                    <div class="layui-input-block">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn" id="test2">多图片上传</button>
+                            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                                预览图：
+                                <div class="layui-upload-list" id="demo2"></div>
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    break;
+                case "title":
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="@prop.Name" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="@getVlue(prop,ViewData["DataModel"])">
+                        </div>
+                    </div>
+                    break;
+                @*case "description":
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">简介</label>
+                        <div class="layui-input-block">
+                            <div id="editor1">
+                                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                            </div>
+                            <input type="hidden" id="editorValue" name="description" value=" " />
+                        </div>
+                    </div> 
+                    break;*@
+                case "content":
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">内容</label>
+                        <div class="layui-input-block">
+                            <div id="editorContent">
+                                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                            </div>
+                            <input type="hidden" id="editorContentValue" name="content" value=" " />
+                        </div>
+                    </div>
+
+                    break;
+                case "parentcategory":
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">父级</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="parentCategory" class="layui-input" name="parentCategory" value=" " />
+                            <div id="test12" class="demo-tree-more"></div>
+                        </div>
+                    </div>
+                    break;
+                case "tags":
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">标签</label>
+                        <div class="layui-input-block">
+                            <input name="tags" value=''>
+                        </div>
+                    </div>
+                    break;
+                case "isshowtop":
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">置顶</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="isShowTop" lay-skin="switch" lay-text="是|否">
+                        </div>
+                    </div>
+                    break;
+                case "fee":
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">付费</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="fee" placeholder="请输入标题" autocomplete="off" class="layui-input" style="width: 100px;">
+
+                        </div>
+                    </div>
+                    break;
+                default:
+                    @*<label class="col-sm-2 control-label">@prop.Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="@prop.Name" value="" placeholder="@prop.Name">
+                        </div>*@
+                    break;
+            }
+        </div>
+    }
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1);">回退</button>
+            <button lay-submit class="layui-btn " lay-filter="btnSubmit">提交</button>
+        </div>
+    </div>
+}
+
+<div id="test" style="display:none;">
+    thisi test content
+</div>
+
+
+@section scripts{
+    <script>
+        var ele = document.querySelector('input[name=tags]');
+        var tagify = new Tagify(ele)
+
+
+        //Demo
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(btnSubmit)', function (data) {
+                //layer.msg(JSON.stringify(data.field));
+                var tags = [];
+                var tmpTags = eval(data.field.tags);
+                for (var index in tmpTags) {
+                    var item = tmpTags[index];
+                    tags.push({
+                        name: item.value
+                    })
+                }
+                data.field.tags = tags;
+                $.ajax({
+                    url: '/ContentEntry/AddOrUpdate',
+                    dataType: 'json',
+                    type: 'post',
+                    data: data.field,
+                    success: function (res) {
+                        if (res.success) {
+                            layer.msg('添加成功!');
+                        } else {
+                            layer.msg('添加失败' + res.msg);
+                        }
+                        setTimeout(function () { window.location.reload(); }, 400);
+                    }
+                })
+                return false;
+            });
+        });
+
+        layui.use('layer', function () {
+            var layer = layui.layer;
+
+            //layer.msg('hello');
+
+
+            //layer.open({
+            //    type: 1,
+            //    content: '传入任意的文本或html' //这里content是一个普通的String
+            //});
+
+            //layer.open({
+            //    type: 1,
+            //    title: "Modal",
+            //    content: layer.$('#test')//数组第二项即吸附元素选择器或者DOM
+            //});
+
+            //eg2
+            return;
+            layer.open({
+                title: "Modal",
+                content: layui.$('#test').html()
+                , btn: ['按钮一', '按钮二', '按钮三']
+                , yes: function (index, layero) {
+                    //按钮【按钮一】的回调
+                }
+                , btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                , btn3: function (index, layero) {
+                    //按钮【按钮三】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                , cancel: function () {
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+
+        });
+        layui.use('upload', function () {
+            var $ = layui.jquery
+                , upload = layui.upload;
+
+            //选完文件后不自动上传
+            upload.render({
+                elem: '#test8'
+                , url: '/upload/'
+                , auto: false
+                //,multiple: true
+                , bindAction: '#test9'
+                , done: function (res) {
+                    console.log(res)
+                }
+            });
+
+            //拖拽上传
+            upload.render({
+                elem: '#test10'
+                , url: '/upload/'
+                , done: function (res) {
+                    console.log(res)
+                }
+            });
+
+            //多文件列表示例
+            var demoListView = $('#demoList')
+                , uploadListIns = upload.render({
+                    elem: '#testList'
+                    , url: '/upload/'
+                    , accept: 'file'
+                    , multiple: true
+                    , auto: false
+                    , bindAction: '#testListAction'
+                    , choose: function (obj) {
+                        var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                        //读取本地文件
+                        obj.preview(function (index, file, result) {
+                            var tr = $(['<tr id="upload-' + index + '">'
+                                , '<td>' + file.name + '</td>'
+                                , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                                , '<td>等待上传</td>'
+                                , '<td>'
+                                , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                                , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                                , '</td>'
+                                , '</tr>'].join(''));
+
+                            //单个重传
+                            tr.find('.demo-reload').on('click', function () {
+                                obj.upload(index, file);
+                            });
+
+                            //删除
+                            tr.find('.demo-delete').on('click', function () {
+                                delete files[index]; //删除对应的文件
+                                tr.remove();
+                                uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                            });
+
+                            demoListView.append(tr);
+                        });
+                    }
+                    , done: function (res, index, upload) {
+                        if (res.code == 0) { //上传成功
+                            var tr = demoListView.find('tr#upload-' + index)
+                                , tds = tr.children();
+                            tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                            tds.eq(3).html(''); //清空操作
+                            return delete this.files[index]; //删除文件队列已经上传成功的文件
+                        }
+                        this.error(index, upload);
+                    }
+                    , error: function (index, upload) {
+                        var tr = demoListView.find('tr#upload-' + index)
+                            , tds = tr.children();
+                        tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                        tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                    }
+                });
+
+        });
+
+    </script>
+
+    <script>
+        var E = window.wangEditor
+        var $text1 = $('#editorContentValue')
+
+        var editor = new E('#editorContent')
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'strikeThrough',  // 删除线
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+            'quote',  // 引用
+            'emoticon',  // 表情
+            'image',  // 插入图片
+            'table',  // 表格
+            //'video',  // 插入视频
+            'code',  // 插入代码
+            'undo',  // 撤销
+            'redo'  // 重复
+        ]
+        editor.customConfig.uploadImgServer = '/pic/upload'  // 上传图片到服务器
+        editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024 //图片大小限制
+        editor.customConfig.uploadImgMaxLength = 5 //一次上传图片数量
+        editor.customConfig.showLinkImg = false
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $text1.val(html)
+        }
+        editor.customConfig.uploadImgHooks = {
+            // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+            // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+            customInsert: function (insertImg, result, editor) {
+                // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+                // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+                // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+                //var url = result.url
+                if (result.success) {
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        insertImg(item.actualPath)
+                    }
+                }
+                //insertImg(url)
+                console.log(result)
+
+                // result 必须是一个 JSON 格式字符串！！！否则报错
+            }
+        }
+        editor.create()
+        editor.txt.html($text1.val())
+    </script>
+}
+
+
+

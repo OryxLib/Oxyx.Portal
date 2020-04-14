@@ -1,0 +1,186 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons> -->
+    <ion-title>我的主页</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="gotoInfoSet()">
+        设置
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <!-- <ion-row>
+            <ion-col col-6>
+                <img [src]="currentUserInfo.avatar||'/assets/imgs/avatar.png'">
+            </ion-col>
+            <ion-col col-6>
+              <ion-row>
+                    <ion-col>
+                        <button ion-button clear>
+                            设置
+                        </button>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-6>
+                        <button ion-button>关注</button>
+                    </ion-col>
+                    <ion-col col-6>
+                        <button ion-button (click)="openEdit()">
+                            编辑
+                        </button>
+                    </ion-col>
+                </ion-row> 
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <h2>{{currentUserInfo.nickName}}</h2>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-icon name="female"></ion-icon>
+                {{currentUserInfo.location}} 今天好热啊~
+            </ion-col>
+        </ion-row> -->
+    <!-- <ion-row>
+            <ion-col col-4>
+                <small>余额</small>
+                <h2 >3905</h2>
+                <small>阅读币</small>
+                <img [src]="payQRcode">
+            </ion-col>
+            <ion-col col-8>
+                <ion-row>
+                    <ion-col col-6>
+                        <button ion-button marggin>
+                            消费记录
+                        </button>
+                    </ion-col>
+                    <ion-col col-6>
+                        <button ion-button marggin (click)='onBridgeReady()'>
+                            我要充值
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row> -->
+    <div class="userInfoContainer">
+      <div class="backgroundImg" [ngStyle]="{'background-image':'url(' + currentUserInfo.avatar||'/assets/imgs/avatar.png' + ')'}"></div>
+      <ion-avatar (click)="openEdit()">
+        <img [src]="currentUserInfo.avatar||'/assets/imgs/avatar.png'">
+      </ion-avatar>
+      <div class="snapshot" (click)="openEdit()"><span>{{currentUserInfo.snapshot||'这个人什么都没留下'}}</span></div>
+      <div class="basicInfo" (click)="openEdit()"><span>{{currentUserInfo.gender||'未知'}}</span><span>{{currentUserInfo.location||'地球'}}</span><span>{{currentUserInfo.age||'年龄未知'}}</span></div>
+    </div>
+    <div class="userReloationShipContainer">
+      <div class="ursItem">
+        <div class="ursItem-title">粉丝</div>
+        <div class="ursItem-content">{{fansCount}}</div>
+      </div>
+      <div class="ursItem">
+        <div class="ursItem-title">关注</div>
+        <div class="ursItem-content">{{subscribeCount}}</div>
+      </div>
+    </div>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-segment [(ngModel)]="pet">
+            <ion-segment-button value="readLog">漫画记录</ion-segment-button>
+            <ion-segment-button value="postEntry">发帖记录</ion-segment-button>
+            <ion-segment-button value="comments">互动记录</ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <div [ngSwitch]="pet">
+          <ion-row *ngSwitchCase="'readLog'">
+            <ion-col col-12 class="imgs">
+              <div class="container content-thumbnil" *ngIf="contentList&&contentList.length>0">
+                <div class="content-item" text-center *ngFor="let item of contentList">
+                  <div (click)="itemSelected(item.categories)">
+                    <div class="img-container">
+                      <img *ngIf="item.categories.mediaResource&&item.categories.mediaResource.length>0&&item.categories.mediaResource[0];else defaultText"
+                        [src]="filterImgPath(item.categories.mediaResource[0].actualPath)">
+                      <ng-template #defaultText>
+                        <div class='imgDefaultConatainer'>
+                          <p>次元吖!</p>
+                          <p class="label-name">{{item.categories.name}}</p>
+                        </div>
+                      </ng-template>
+                    </div>
+                    <p class="label-name">{{item.categories.name}}</p>
+                  </div>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <!-- <ion-row>
+            <ion-col col-4 text-center *ngFor="let item of contentList">
+              <div (click)="itemSelected(item)">
+                <img [src]="filterImgPath(item.categories.mediaResource[0].actualPath)">
+              </div>
+            </ion-col>
+          </ion-row> -->
+
+          <ion-list *ngSwitchCase="'postEntry'">
+            <ion-item *ngFor="let item of myPostEntryList">
+              <div>{{item.content}}</div>
+              <div *ngIf="item.imageList.length==1">
+                <img *ngIf="item.imageList[0].type==0;else videocontent" [src]="filterImgPath(item.imageList[0].actualPath)">
+                <ng-template #videocontent>
+                  <video class="postVideo" loop controls [src]="filterImgPath(item.imageList[0].actualPath)"></video>
+                </ng-template>
+              </div>
+              <div>{{updateDatetime(item.timeStamp)}}</div>
+            </ion-item>
+          </ion-list>
+          <ion-list *ngSwitchCase="'comments'">
+            <div *ngIf="commentList">
+              <ion-card class="subCommentCard" *ngFor="let subCommentItem of commentList">
+                <ion-item>
+                  <ion-avatar class="commentItem" item-start>
+                    <img [src]='subCommentItem.userAccount.avatar'>
+                  </ion-avatar>
+                  <h6>{{subCommentItem.userAccount.nickName}}</h6>
+                </ion-item>
+                <ion-card-content>
+                  <p>{{subCommentItem.content}}</p>
+                  <div *ngIf="subCommentItem.parentComment">
+                    <span class="replyTo">
+                      回复: <span class="replyToName">@{{subCommentItem.parentComment.userAccount.nickName}}</span>
+                    </span>
+                    <p padding-left>{{subCommentItem.parentComment.content}}</p>
+                  </div>
+
+                </ion-card-content>
+                <ion-row>
+                  <ion-col center text-right padding-right>
+                    <span>点赞({{subCommentItem.likeNum}})</span>
+                    <span (click)="gotoReplySubComment(subCommentItem)">评论
+                      <!--({{subCommentItem.likeNum||0}})--></span>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+            </div>
+            <!-- <ion-item *ngFor="let item of commentList">
+              <ion-thumbnail item-start>
+                <img [src]="filterImgPath(item.imgUrl)">
+              </ion-thumbnail>
+              <h2>{{item.title}}</h2>
+            </ion-item> -->
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

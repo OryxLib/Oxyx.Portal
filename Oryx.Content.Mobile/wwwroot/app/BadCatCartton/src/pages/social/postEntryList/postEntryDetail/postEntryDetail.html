@@ -1,0 +1,119 @@
+<ion-header [style]='bdImg'>
+  <ion-toolbar no-border>
+    <ion-buttons start>
+      <button ion-button icon-only color="royal" (click)="goBack()">
+        返回
+      </button>
+    </ion-buttons>
+    <ion-title> </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="sharePage()">
+        分享
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-content class="cateDetail" *ngIf="postentryDetailItem">
+    <ion-row>
+      <ion-col col-12>
+        <ion-card>
+          <ion-item>
+            <ion-avatar item-start (click)="goSocialInfo(item)">
+              <img [src]="postentryDetailItem.userInfo.avatar||'/assets/avarta/userAvarta1.png'">
+            </ion-avatar>
+            <ion-label (click)="goSocialInfo(item)">
+              <h2>{{postentryDetailItem.userInfo.nickName}}</h2>
+              <p>{{postentryDetailItem.userInfo.birthDay}}</p>
+            </ion-label>
+            <button ion-button outline item-end type="button" (click)="subscribe(postentryDetailItem.userInfo.id)"
+              *ngIf="!IsSubscribed">
+              关注
+            </button>
+          </ion-item>
+          <div *ngIf="postentryDetailItem.imageList.length==1">
+            <img *ngIf="postentryDetailItem.imageList[0].type==0;else videocontent" [src]="postentryDetailItem.imageList[0].actualPath">
+            <ng-template #videocontent>
+              <video class="postVideo" loop controls [src]="postentryDetailItem.imageList[0].actualPath"></video>
+            </ng-template>
+          </div>
+          <ion-card-content text-left [innerHtml]="filterContent(postentryDetailItem.textContent)"></ion-card-content>
+          <div class="imgListContainer">
+            <div *ngFor="let img of postentryDetailItem.imageList">
+              <img [src]="img.actualPath">
+            </div>
+          </div>
+          <!-- <ion-slides *ngIf="postentryDetailItem.imageList.length>1" pager>
+            <ion-slide *ngFor="let img of postentryDetailItem.imageList">
+              <img [src]="img.actualPath">
+            </ion-slide>
+          </ion-slides> -->
+          <div text-left padding-left *ngIf='postentryDetailItem.postEntryTopic'>#{{postentryDetailItem.postEntryTopic}}</div>
+          <ion-row>
+            <ion-col>
+              <button ion-button icon-start clear small>
+                <ion-icon name="thumbs-up"></ion-icon>
+                <div>{{postentryDetailItem.likeSum}}</div>
+              </button>
+            </ion-col>
+            <ion-col>
+              <button ion-button icon-start clear small>
+                <ion-icon name="text"></ion-icon>
+                <div>{{postentryDetailItem.postEntryCommentListNum}}</div>
+              </button>
+            </ion-col>
+            <ion-col center text-center style="display: flex;align-items: center;">
+              <ion-note>{{updateDatetime(postentryDetailItem.timeStamp)}}</ion-note>
+            </ion-col>
+          </ion-row>
+          <div class="commentSplit">
+            <span>评论</span>
+          </div>
+          <div *ngIf="postEntryCommentList">
+            <ion-card class="subCommentCard" *ngFor="let subCommentItem of postEntryCommentList">
+              <ion-item>
+                <ion-avatar item-start>
+                  <img [src]='subCommentItem.userAccount.avatar'>
+                </ion-avatar>
+                <h6>{{subCommentItem.userAccount.nickName}}</h6>
+              </ion-item>
+              <ion-card-content>
+                <p>{{subCommentItem.content}}</p>
+                <div *ngIf="subCommentItem.parentComment">
+                  <span class="replyTo">
+                    回复: <span class="replyToName">@{{subCommentItem.parentComment.userAccount.nickName}}</span>
+                  </span>
+                  <p padding-left>{{subCommentItem.parentComment.content}}</p>
+                </div>
+
+              </ion-card-content>
+              <ion-row>
+                <ion-col center text-right padding-right>
+                  <span>点赞({{subCommentItem.likeNum}})</span>
+                  <span (click)="gotoReplySubComment(subCommentItem)">评论
+                    <!--({{subCommentItem.likeNum||0}})--></span>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </div>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar no-padding>
+      <div class="replayContainer">
+        <span class="replyTo" *ngIf="replyTo">
+          回复: <span class="replyToName">@{{replyTo}}</span>
+        </span>
+        <ion-input class="replayContent" type="text" placeholder="写评论..." (keyup.enter)="writeComment()" [(ngModel)]="txtComment"></ion-input>
+        <button *ngIf="replyTo" ion-button class="closeBtn" (click)="closeReplyTo()">
+          <ion-icon name='close'></ion-icon>
+        </button>
+      </div>
+    </ion-toolbar>
+  </ion-footer>

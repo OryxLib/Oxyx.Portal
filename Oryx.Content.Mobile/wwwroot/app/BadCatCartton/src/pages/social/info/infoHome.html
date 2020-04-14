@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Ta的主页</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="subscribe()">
+        {{isSubscrib?'取消':'关注'}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="currentUserInfo">
+    <div class="userInfoContainer">
+      <div class="backgroundImg" [ngStyle]="{'background-image':'url(' + currentUserInfo.avatar||'/assets/imgs/avatar.png' + ')'}"></div>
+      <ion-avatar (click)="openEdit()">
+        <img [src]="currentUserInfo.avatar||'/assets/imgs/avatar.png'">
+      </ion-avatar>
+      <div class="snapshot" (click)="openEdit()"><span>{{currentUserInfo.snapshot||'这个人什么都没留下'}}</span></div>
+      <div class="basicInfo" (click)="openEdit()"><span>{{currentUserInfo.gender||'未知'}}</span><span>{{currentUserInfo.location||'地球'}}</span><span>{{currentUserInfo.age||'年龄未知'}}</span></div>
+    </div>
+    <div class="userReloationShipContainer">
+      <div class="ursItem">
+        <div class="ursItem-title">粉丝</div>
+        <div class="ursItem-content">{{fansCount}}</div>
+      </div>
+      <div class="ursItem">
+        <div class="ursItem-title">关注</div>
+        <div class="ursItem-content">{{subscribeCount}}</div>
+      </div>
+    </div>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-segment [(ngModel)]="pet">
+            <ion-segment-button value="readLog">漫画记录</ion-segment-button>
+            <ion-segment-button value="postEntry">发帖记录</ion-segment-button>
+            <ion-segment-button value="comments">互动记录</ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <div [ngSwitch]="pet">
+          <ion-row *ngSwitchCase="'readLog'">
+            <ion-col col-4 text-center *ngFor="let item of contentList">
+              <div (click)="itemSelected(item)">
+                <img [src]="item.imgUrl">
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-list *ngSwitchCase="'postEntry'">
+            <ion-item *ngFor="let item of myPostEntryList">
+              <div [innerHTML]='item.content'></div>
+              <div *ngIf="item.imageList.length==1">
+                <img *ngIf="item.imageList[0].type==0;else videocontent" [src]="item.imageList[0].actualPath">
+                <ng-template #videocontent>
+                  <video class="postVideo" loop controls [src]="item.imageList[0].actualPath"></video>
+                </ng-template>
+              </div>
+              <div>{{updateDatetime(item.timeStamp)}}</div>
+            </ion-item>
+          </ion-list>
+          <ion-list *ngSwitchCase="'comments'">
+            <ion-item *ngFor="let item of contentList">
+              <ion-thumbnail item-start>
+                <img [src]="item.imgUrl">
+              </ion-thumbnail>
+              <h2>{{item.title}}</h2>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

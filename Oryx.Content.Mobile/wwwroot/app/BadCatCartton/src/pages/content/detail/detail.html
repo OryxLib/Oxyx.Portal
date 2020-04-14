@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{detailTitle}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openModal()">
+        <ion-icon name="options"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="loaded">
+    <ion-row>
+      <ion-col col-12 text-center>
+        <div class="imgContainer" *ngFor="let contentItem of categoryList">
+          <img [src]="filterImgPath(item.actualPath)" *ngFor="let item of tmpcontentList"   (load)="imgLoaded($event)"
+            (error)="imgLoaded()" />
+          <div padding style="height:300px;">
+            用户评论列表
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row>
+            <ion-col>
+                <button class="ion-button">下一页</button>
+            </ion-col>
+        </ion-row> -->
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

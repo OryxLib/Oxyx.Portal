@@ -1,0 +1,17 @@
+{
+  "name": "Oryx.Shop",
+  "authors": [
+    "Huaming Li (Beyondsoft) <v-huamli@microsoft.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,27 @@
+/* pages/yanzhiResult/yanzhiResult.wxss */
+
+button {
+  height: 64px;
+  width: 64px;
+  color: darkcyan;
+  padding-top: 15px;
+  display: inline-block;
+}
+
+.txBorder {
+  background-image: url('https://mioto.milbit.com/shopping/touxiangBorder.png');
+  background-color: transparent;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 600rpx;
+  width: 600rpx;
+}
+
+.txImg {
+  border-radius: 50%;
+  height: 62%;
+  width: 62%;
+  position: relative;
+  top: 16%;
+  left: 14%;
+}

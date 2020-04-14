@@ -1,0 +1,9 @@
+[mysqld] 
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES 
+datadir=/usr/local/mysql/data
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+ndbcluster 
+ndb-connectstring=47.100.232.68
+[mysql_cluster] 
+ndb-connectstring=47.100.232.68

@@ -1,0 +1,189 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <ion-row>
+
+      <ion-col col-12>
+        <ion-searchbar right (click)="showSearch()">
+        </ion-searchbar>
+      </ion-col>
+    </ion-row>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="showSearch()">
+        <ion-icon name="search" *ngIf="!showSearchContent;else closeBtn"></ion-icon>
+        <ng-template #closeBtn>
+          <ion-icon name="close-circle"></ion-icon>
+        </ng-template>
+      </button>
+    </ion-buttons> -->
+    <ion-row class="filters">
+      <ion-col class="col-with-arrow" (click)="slidePrev()" no-padding col-1>
+        <ion-icon *ngIf="showLeftButton" name="arrow-back"></ion-icon>
+      </ion-col>
+      <ion-col no-padding col-10>
+        <ion-slides (ionSlideDidChange)="slideChanged()" slidesPerView="3">
+          <ng-template ngFor let-category [ngForOf]="categories" let-itemIndex="index">
+            <ion-slide *ngIf="itemIndex!=0;else searchContainer" (click)="filterData(category,itemIndex,category.name)">
+              <p [class.selected]="selectedCategory?.id === category.id">{{ category.name }}</p>
+            </ion-slide>
+            <ng-template #searchContainer>
+              <ion-slide *ngIf="showSearchContent" (click)="filterData(category,itemIndex,category.name)">
+                <p [class.selected]="selectedCategory?.id === category.id">{{ category.name }}</p>
+              </ion-slide>
+            </ng-template>
+          </ng-template>
+        </ion-slides>
+      </ion-col>
+      <ion-col class="col-with-arrow" (click)="slideNext()" no-padding col-1>
+        <ion-icon *ngIf="showRightButton" name="arrow-forward"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <!-- <ion-row>
+    <ion-col col-12>
+      <ion-searchbar right (click)="showSearch()">
+      </ion-searchbar>
+    </ion-col>
+  </ion-row> -->
+  <div [ngSwitch]="slideTab" style="height: 100%;">
+    <div *ngSwitchCase="'搜索'">
+      <div>
+        <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+        <div padding>
+          <span padding *ngFor="let item of queryItems">
+            #{{item}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="contentWraper" style="height: 100%;" *ngSwitchCase="'推荐'" style="position: relative;">
+      <ion-content style="height: 100%;">
+        <ion-refresher (ionRefresh)="doRefresh($event)" startY="300">
+          <ion-refresher-content refreshingText="加载中..."></ion-refresher-content>
+        </ion-refresher>
+        <ion-row>
+          <ion-col col-12 text-center>
+            <ion-card *ngFor="let item of contentList">
+              <ion-item>
+                <ion-avatar item-start (click)="goSocialInfo(item)">
+                  <img [src]="item.userInfo.avatar||'/assets/avarta/userAvarta1.png'">
+                </ion-avatar>
+                <ion-label (click)="goSocialInfo(item)">
+                  <h2 class="user-name">{{item.userInfo.nickName}}</h2>
+                  <!-- <p>{{item.userInfo.birthDay}}</p> -->
+                  <div class="update-time">
+                    {{updateDatetime(item.timeStamp)}}
+                  </div>
+                </ion-label>
+                <button ion-button outline item-end type="button" (click)="subscribe(item.userInfo.id)" *ngIf="!selfUserInfo||!item.isSubscribed&&item.userInfo.id!=selfUserInfo.userId">
+                  关注
+                </button>
+              </ion-item>
+
+              <div *ngIf="item.imageList.length==1" (click)="gotoDetail(item.id)">
+                <img *ngIf="item.imageList[0].type==0;else videocontent" [src]="item.imageList[0].actualPath">
+                <ng-template #videocontent>
+                  <video class="postVideo" loop controls [src]="item.imageList[0].actualPath"></video>
+                </ng-template>
+              </div>
+              <ion-card-content no-padding text-left [innerHtml]="filterContent(item.content)" (click)="gotoDetail(item.id)"></ion-card-content>
+              <ion-slides *ngIf="item.imageList.length>1" pager (click)="gotoDetail(item.id)">
+                <ion-slide *ngFor="let img of item.imageList">
+                  <img [src]="img.actualPath">
+                </ion-slide>
+              </ion-slides>
+              <div class="topicSpan" text-left padding-left *ngIf="item.postEntryTopic" (click)="gotoTopic(item.postEntryTopic)">#{{item.postEntryTopic}}</div>
+              <ion-row class="like-content">
+                <!-- <ion-col>
+                  <button ion-button icon-start clear small (click)="likePost(item)">
+                    <ion-icon name="thumbs-up"></ion-icon>
+                    <div>{{item.likeNum}}</div>
+                  </button>
+                </ion-col>
+                <ion-col>
+                  <button ion-button icon-start clear small (click)="gotoDetail(item.id)">
+                    <ion-icon name="text"></ion-icon>
+                    <div>{{item.commentNum}}</div>
+                  </button>
+                </ion-col> -->
+                <!-- <ion-col center text-center style="display: flex;align-items: center;">
+                  <ion-note>{{updateDatetime(item.timeStamp)}}</ion-note>
+                </ion-col> -->
+                <span (click)="likePost(item)">点赞({{item.likeNum}})</span>
+                <span (click)="likePost(item)">评论({{item.commentNum}})</span>
+              </ion-row>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-content>
+    </div>
+    <div class="contentWraper" style="height: 100%;" *ngSwitchCase="'Coser'" style="position: relative;">
+      <ion-content style="height: 100%;">
+        <ion-refresher (ionRefresh)="doRefresh($event)" startY="300">
+          <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles"
+            refreshingText="加载中..."></ion-refresher-content>
+        </ion-refresher>
+        <ion-row>
+          <ion-col col-12 text-center>
+            <ion-card *ngFor="let item of contentList">
+              <ion-item>
+                <ion-avatar item-start (click)="goSocialInfo(item)">
+                  <img [src]="item.userInfo.avatar||'/assets/avarta/userAvarta1.png'">
+                </ion-avatar>
+                <ion-label (click)="goSocialInfo(item)">
+                  <h2 class="user-name">{{item.userInfo.nickName}}</h2>
+                  <!-- <p>{{item.userInfo.birthDay}}</p> -->
+                  <div class="update-time">
+                    {{updateDatetime(item.timeStamp)}}
+                  </div>
+                </ion-label>
+                <button ion-button outline item-end type="button" (click)="subscribe(item.userInfo.id)" *ngIf="!selfUserInfo||!item.isSubscribed&&item.userInfo.id!=selfUserInfo.userId">
+                  关注
+                </button>
+              </ion-item>
+
+              <div *ngIf="item.imageList.length==1" (click)="gotoDetail(item.id)">
+                <img *ngIf="item.imageList[0].type==0;else videocontent" [src]="item.imageList[0].actualPath">
+                <ng-template #videocontent>
+                  <video class="postVideo" loop controls [src]="item.imageList[0].actualPath"></video>
+                </ng-template>
+              </div>
+              <ion-card-content no-padding text-left [innerHtml]="filterContent(item.content)" (click)="gotoDetail(item.id)"></ion-card-content>
+              <ion-slides *ngIf="item.imageList.length>1" pager (click)="gotoDetail(item.id)">
+                <ion-slide *ngFor="let img of item.imageList">
+                  <img [src]="img.actualPath">
+                </ion-slide>
+              </ion-slides>
+              <div class="topicSpan" text-left padding-left *ngIf="item.postEntryTopic" (click)="gotoTopic(item.postEntryTopic)">#{{item.postEntryTopic}}</div>
+              <ion-row class="like-content">
+                <span (click)="likePost(item)">点赞({{item.likeNum}})</span>
+                <span (click)="likePost(item)">评论({{item.commentNum}})</span>
+              </ion-row>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-content>
+    </div>
+    <div class="contentWraper" style="height: 100%;" *ngSwitchCase="'声优'" style="position: relative;">
+      <div style="margin-top:150px;border:1px solid  #fdbb64;text-align:center;padding:20px;color:#ddd">
+        暂无内容哦，工程师哥哥正在加紧处理~
+      </div>
+    </div>
+  </div>
+
+  <ion-fab right bottom edge>
+    <button ion-fab mini (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

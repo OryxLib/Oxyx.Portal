@@ -1,0 +1,18 @@
+<!-- <ion-nav [root]="rootPage"></ion-nav> -->
+<ion-tabs #mainTab>
+    <!-- <ion-tab tabIcon="albums" tabTitle="极光" [root]="testJihugang">
+
+    </ion-tab> -->
+    <ion-tab tabIcon="albums" tabTitle="漫画" [root]="tab1">
+
+    </ion-tab>
+    <ion-tab tabIcon="browsers" tabTitle="社区" tabBadgeStyle="danger" [root]="tab2">
+
+    </ion-tab>
+    <ion-tab tabIcon="chatbubbles" tabTitle="消息" [tabBadge]="msgNum" tabBadgeStyle="danger" [root]="chatmsg">
+
+    </ion-tab>
+    <ion-tab tabIcon="contact" tabTitle="我的" (ionSelect)="userInfo()" [root]="tab3">
+
+    </ion-tab>
+</ion-tabs>

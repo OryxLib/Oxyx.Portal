@@ -1,0 +1,92 @@
+﻿@page
+@using Newtonsoft.Json
+@model Oryx.Shop.Pages.Good.ListModel
+@{
+    ViewData["Title"] = "商品列表";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <!--breadcrumbs start -->
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> 主页</a></li>
+            <li class="active"> @ViewData["Title"]</li>
+        </ul>
+        <!--breadcrumbs end -->
+    </div>
+</div>
+<section class="panel" id="list-panel">
+    <header class="panel-heading">
+        @ViewData["Title"]
+    </header>
+    <div class="panel-body">
+        <a class="btn btn-primary" href="/good/good">新增商品</a>
+        <hr />
+        <table class="table-noborder">
+            <tr>
+                <td>商品名称</td>
+                <td><input type="text" class="form-control" v-model="query.GoodsName" /></td>
+                <td>价格区间</td>
+                <td>
+                    <input type="number" style="width:100px;" placeholder="￥" v-model="query.StartPrice" />~
+                    <input type="number" style="width:100px;" placeholder="￥" v-model="query.EndPrice" />
+                </td>
+                <td>创建时间</td>
+                <td>
+                    <input type="time" value="" />~
+                    <input type="time" value="" />
+                </td>
+                <td>
+                    <button class="btn btn-success"><i class="fa fa-search"></i> 搜索</button>
+                </td>
+            </tr>
+        </table>
+        <div class="col-md-12">
+            <nav class="navbar-right">
+                <ul class="pagination">
+                    <li><a>共total条记录(每页显示size条记录)</a></li>
+                    <li><a style="cursor:pointer"><span class="glyphicon glyphicon-fast-backward"></span></a></li>
+                    <li><a style="cursor:pointer"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                    <li class="page-input active">
+                        <a class="skippage">
+                            <div class="hide">page/total</div>
+                            <input type="number" min="1" />
+                        </a>
+                    </li>
+                    <li><a style="cursor:pointer"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+                    <li><a style="cursor:pointer"><span class="glyphicon glyphicon-fast-forward"></span></a></li>
+                </ul>
+            </nav>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="table-index">#</th>
+                    <th>封面</th>
+                    <th>商品名</th>
+                    <th>售价</th>
+                    <th class="table-option">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(good,idx) in list">
+                    <td>{{idx+1}}</td>
+                    <td>{{good.CoverPics[0]}}</td>
+                    <td>{{good.Name}}</td>
+                    <td>{{good.Price}}</td>
+                    <td>
+                        <a :href="'/good/good?id='+good.Id" class="btn btn-xs btn-primary" title="编辑"><i class="fa fa-edit"></i>&nbsp;编辑</a>
+                        <button class="btn btn-xs btn-danger" @@click="delGoods(good.Id)" title="删除"><i class="fas fa-trash-alt"></i>&nbsp;删除</button>
+                    </td>
+                </tr>
+                <tr v-if="list.length===0">
+                    <td colspan="5">没有数据</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/view/good/list.js"></script>
+} 

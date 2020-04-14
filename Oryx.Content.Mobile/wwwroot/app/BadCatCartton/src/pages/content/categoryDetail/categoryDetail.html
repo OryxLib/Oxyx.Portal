@@ -1,0 +1,156 @@
+<!-- <ion-header [style]='bdImg'>
+    <ion-navbar>
+        <ion-title>{{contentTitle}}</ion-title>
+    </ion-navbar>
+</ion-header> -->
+
+<ion-header class="cateDetail" [style]='bdImg'>
+
+  <div [style]='bdImg'></div>
+  <ion-toolbar no-border>
+    <ion-buttons start>
+      <button ion-button icon-only color="royal" (click)="goBack()">
+        <!-- <ion-icon name="arrow-back"></ion-icon> -->
+        返回
+      </button>
+    </ion-buttons>
+    <ion-title> </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="sharePage()">
+        <!-- <ion-icon name="share-alt"></ion-icon> -->
+        分享
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="cateDetail">
+  <div>
+    <div padding text-center class="converImgContainer" [ngStyle]="{'background-image': 'url(' + filterImgPath(converImg) + ')'}">
+      <div class="img-cover"></div>
+      <div class="cateName">{{contentTitle}}</div>
+      <div class="tags">
+        <span class="tagContainer" *ngFor="let item of tags">
+          {{item.name}}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <ion-segment class="cateDetailSegment" [(ngModel)]="cateoption">
+      <ion-segment-button value="category">目录</ion-segment-button>
+      <ion-segment-button value="comment">评论</ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="cateoption">
+    <div>
+      <ion-row *ngSwitchCase="'comment'">
+        <ion-col col-12 text-left no-padding>
+          <ion-card *ngFor="let item of commentList">
+            <ion-item>
+              <ion-avatar item-start>
+                <img [src]='item.userAccountEntry.avatar'>
+              </ion-avatar>
+              <h4>{{item.userAccountEntry.nickName}}</h4>
+              <p>{{item.createTime}}</p>
+            </ion-item>
+            <ion-card-content>
+              <p> <span class="topTag">#{{item.postEntryTopic}}#</span>{{item.textContent}}</p>
+            </ion-card-content>
+
+            <ion-row>
+              <ion-col padding-left>
+                浏览0次
+                <!-- <button ion-button icon-start clear small>
+                                            <ion-icon name="thumbs-up"></ion-icon>
+                                            <div>{{item.likeSum}}</div>
+                                        </button> -->
+              </ion-col>
+              <ion-col center text-center padding-left>
+                <!-- <ion-note>
+                                            11h ago
+                                        </ion-note> -->
+                <span>点赞({{item.likeSum}})</span>
+                <span (click)="gotoReplyPostEntry(item)">评论({{item.postEntryCommentListNum||0}})</span>
+              </ion-col>
+            </ion-row>
+            <div *ngIf="item.postEntryCommentList">
+              <ion-card class="subCommentCard" *ngFor="let subCommentItem of item.postEntryCommentList">
+                <ion-item>
+                  <ion-avatar item-start>
+                    <img [src]='subCommentItem.userAccount.avatar'>
+                  </ion-avatar>
+                  <h6>{{subCommentItem.userAccount.nickName}}</h6>
+                </ion-item>
+                <ion-card-content>
+                  <p>{{subCommentItem.content}}</p>
+                  <div *ngIf="subCommentItem.parentComment">
+                    <span class="replyTo">
+                      回复: <span class="replyToName">@{{subCommentItem.parentComment.userAccount.nickName}}</span>
+                    </span>
+                    <p padding-left>{{subCommentItem.parentComment.content}}</p>
+                  </div>
+
+                </ion-card-content>
+                <ion-row>
+                  <ion-col center text-right padding-right>
+                    <span>点赞({{item.likeSum}})</span>
+                    <span (click)="gotoReplySubComment(subCommentItem)">评论({{subCommentItem.likeNum||0}})</span>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+            </div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngSwitchCase="'category'">
+      <!-- <ion-row class="filters">
+        <ion-col class="col-with-arrow" (click)="slidePrev()" no-padding col-1>
+          <ion-icon *ngIf="showLeftButton" name="arrow-back"></ion-icon>
+        </ion-col>
+        <ion-col no-padding col-10>
+          <ion-slides (ionSlideDidChange)="slideChanged()" slidesPerView="3">
+            <ng-template ngFor let-category [ngForOf]="categories" let-itemIndex="index">
+              <ion-slide *ngIf="itemIndex!=0;else searchContainer" (click)="filterData(category,itemIndex,category.name)">
+                <p [class.selected]="selectedCategory?.id === category.id">{{ category.name }}</p>
+              </ion-slide>
+              <ng-template #searchContainer>
+                <ion-slide *ngIf="showSearchContent" (click)="filterData(category,itemIndex,category.name)">
+                  <p [class.selected]="selectedCategory?.id === category.id">{{ category.name }}</p>
+                </ion-slide>
+              </ng-template>
+            </ng-template>
+          </ion-slides>
+        </ion-col>
+        <ion-col class="col-with-arrow" (click)="slideNext()" no-padding col-1>
+          <ion-icon *ngIf="showRightButton" name="arrow-forward"></ion-icon>
+        </ion-col>
+      </ion-row> -->
+      <div class="tips" *ngIf='!isLogin&&contentList'>
+        登录后可以保存聊天记录哦~<a (click)="login()">登录</a>
+      </div>
+      <ion-row>
+        <ion-col col-4 text-center *ngFor="let item of contentList">
+          <div class="categoryItem" [ngClass]="{'readed':userContentLog[item.id]}" (click)="itemSelected(item)">
+            <div>{{item.title}}</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer *ngIf="cateoption=='comment'">
+  <ion-toolbar>
+    <div class="replayContainer">
+      <span class="replyTo" *ngIf="replyTo">
+        回复: <span class="replyToName">@{{replyTo}}</span>
+      </span>
+      <ion-input class="replayContent" type="text" placeholder="写评论..." (keyup.enter)="writeComment()" [(ngModel)]="txtComment"></ion-input>
+      <button *ngIf="replyTo" ion-button class="closeBtn" (click)="closeReplyTo()">
+        <ion-icon name='close'></ion-icon>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

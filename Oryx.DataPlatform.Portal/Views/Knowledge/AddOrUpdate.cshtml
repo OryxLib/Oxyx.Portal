@@ -1,0 +1,199 @@
+﻿
+@{
+    ViewData["Title"] = "Send";
+}
+@using System.Reflection;
+@using Oryx.Content.Model;
+
+@functions {
+public string getVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        return prop.GetValue(dataModel).ToString();
+    }
+    else
+    {
+        return "";
+    }
+}
+public string getCheckBoxVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        var value = prop.GetValue(dataModel).ToString();
+        if (value == "True")
+        {
+            return "checked";
+        }
+
+    }
+    return "";
+}
+}
+<br />
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">知识库内容</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(FormMethod.Post, new { Class = "form-horizontal" }))
+    {
+        var properties = (ViewData["DataType"] as Type).GetProperties();
+
+        @*<button>提交</button>*@
+        <div class="box-body">
+
+            @foreach (var prop in properties)
+            {
+                <div class="form-group">
+                    @switch (prop.Name.ToLower())
+                    {
+                        case "id":
+                            <input type="hidden" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            break;
+                        case "categoryid":
+                            <label class="col-sm-2 control-label">类别</label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" name="@prop.Name" style="width: 100%;">
+                                    @if (ViewData["DataCategory"] != null)
+                                    {
+                                        foreach (var item in ViewData["DataCategory"] as List<Categories>)
+                                        {
+                                            <option @(item.Id.ToString() == getVlue(prop, ViewData["DataModel"]) ? "checked" : "") value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            break;
+                        case "title":
+                            <label class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            </div>
+                            break;
+                        case "description":
+                            <label class="col-sm-2 control-label">简介</label>
+                            <div class="col-sm-10">
+                                @*<textarea id="editor1" name="editor1" rows="10" cols="80"> </textarea>*@
+                                <textarea name="@prop.Name">
+                                 @getVlue(prop,ViewData["DataModel"])
+                                </textarea>
+                            </div>
+                            break;
+                        case "content":
+
+                            <label class="col-sm-2 control-label">内容</label>
+                            <div class="col-sm-10">
+                                @*<textarea id="editor1" name="editor1" rows="10" cols="80"> </textarea>*@
+                                <div id="editor1">
+                                    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                                </div>
+                                <input type="hidden" id="editorValue" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            </div>
+                            break;
+                        case "istop":
+                            <label class="col-sm-2 control-label">置顶</label>
+                            <div class="col-sm-10">
+                                <input type="checkbox" @getCheckBoxVlue(prop, ViewData["DataModel"]) name="@prop.Name" value="True" />
+                            </div>
+                            break;
+                        case "isfaq":
+                            @*<label class="col-sm-2 control-label">热门问答</label>
+                                <div class="col-sm-10">
+                                    <input type="checkbox" @getCheckBoxVlue(prop, ViewData["DataModel"]) name="@prop.Name" value="True" />
+                                </div>*@
+                            break;
+                        case "order":
+                            <label class="col-sm-2 control-label">排序</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" @getVlue(prop, ViewData["DataModel"]) name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            </div>
+                            break;
+                        default:
+                            @*<label class="col-sm-2 control-label">@prop.Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="@prop.Name" value="" placeholder="@prop.Name">
+                                </div>*@
+                            break;
+                    }
+                </div>
+            }
+
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:history.go(-1);">Go back</button>
+            <button type="submit" class="btn btn-info pull-right">Save Edit</button>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script type="text/template">
+
+    </script>
+    <script>
+        $('.select2').select2()
+
+        var E = window.wangEditor
+        var $text1 = $('#editorValue')
+
+        var editor = new E('#editor1')
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'strikeThrough',  // 删除线
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+            'quote',  // 引用
+            'emoticon',  // 表情
+            'image',  // 插入图片
+            'table',  // 表格
+            //'video',  // 插入视频
+            'code',  // 插入代码
+            'undo',  // 撤销
+            'redo'  // 重复
+        ]
+        editor.customConfig.uploadImgServer = '/pic/upload'  // 上传图片到服务器
+        editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024 //图片大小限制
+        editor.customConfig.uploadImgMaxLength = 5 //一次上传图片数量
+        editor.customConfig.showLinkImg = false
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $text1.val(html)
+        }
+        editor.customConfig.uploadImgHooks = {
+            // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+            // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+            customInsert: function (insertImg, result, editor) {
+                // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+                // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+                // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+                //var url = result.url
+                if (result.success) {
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        insertImg(item.actualPath)
+                    }
+                }
+                //insertImg(url)
+                console.log(result)
+
+                // result 必须是一个 JSON 格式字符串！！！否则报错
+            }
+        }
+        editor.create()
+        editor.txt.html($text1.val())
+    </script>
+}
+

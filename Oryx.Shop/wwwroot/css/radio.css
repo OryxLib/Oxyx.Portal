@@ -1,0 +1,52 @@
+﻿.pay_list_c1 {
+    width: 24px;
+    height: 18px;
+    float: left;
+    padding-top: 3px;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 10px;
+    background-image: url('img/inputradio.gif');
+    background-repeat: no-repeat;
+    background-position: -24px 0;
+}
+
+.radioclass {
+    opacity: 0;
+    cursor: pointer;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+}
+
+.on {
+    background-position: 0 0;
+}
+
+.piaochecked {
+    width: 20px;
+    height: 20px;
+    float: left;
+    cursor: pointer;
+    margin-left: 10px;
+    text-align: center;
+    background-image: url('img/checkbox_01.gif');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.table .piaochecked {
+    margin-top: 7px;
+    padding: 2px;
+    float: none !important;
+}
+
+.on_check {
+    background-position: 0 -21px;
+}
+
+.radioclass {
+    opacity: 0;
+    cursor: pointer;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+}

@@ -1,0 +1,165 @@
+﻿@page
+@model Oryx.Content.Admin.Pages.ContentManager.Contents.ContentImageListModel
+@{
+    ViewData["Title"] = "ContentImageList";
+}
+@section styles{
+    <link href="~/css/Contents/ContentImgList.css" rel="stylesheet" />
+}
+
+<form>
+    <div class="box box-danger">
+        <div class="box-header">
+            <h3 class="box-title">导入图片</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label for="imgFromPDF">
+                    <span class="btn bg-orange btn-flat margin">
+                        <i class="fa fa-inbox"></i> 导入PDF
+                    </span>
+                    <input type="file" multiple id="imgFromPDF" accept="application/pdf" name="imgFromPDF" value="" style="display:none;" onchange="importPDF()" />
+                </label>
+                <label for="imgFromImg">
+                    <span class="btn bg-maroon btn-flat margin">
+                        <i class="fa fa-inbox"></i>    导入IMG
+                    </span>
+                    <input type="file" multiple id="imgFromImg" accept="image/*" name="imgFromImg" value="" style="display:none;" onchange="importImage(this)" />
+                </label>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</form>
+
+<button type="button" onclick="uploadQiniu()" class="btn bg-purple btn-flat margin">上传&保存</button>
+
+<div id="tmpImg" class="list-view">
+</div>
+
+<div class="list-view">
+    @foreach (var item in Model.ImgList)
+    {
+        <div class="list-view-item">
+            <img src="@item" />
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script id="listViewTmp" type="text/template">
+        <div class="list-view-item">
+            <div class="list-view-body">
+                <img src="{imgUrl}" style="width:100%; " />
+            </div>
+            <div class="list-view-footer">编号： <span>{index}</span></div>
+        </div>
+    </script>
+    <script>
+        var imgList = []
+        function importImage(event) {
+            console.log(event)
+            var stepCount = event.files.length;
+            if (event.value) {
+                imgList = new Array(stepCount);
+                for (var fileIndex = 0; fileIndex < event.files.length; fileIndex++) {
+                    var item = event.files[fileIndex]
+                    converToBase64({ item, fileIndex }, function (resBase64, resIndex) {
+                        imgList[resIndex] = {
+                            imgBase64: resBase64,
+                            fileBlob: item
+                        }
+                        !--stepCount && showImg()
+                    })
+                }
+            }
+        }
+
+        function showImg() {
+            imgList.forEach(function (item, index) {
+                tmp = $('#listViewTmp').html().replace(/{imgUrl}/g, item.imgBase64)
+                    .replace(/{index}/g, index)
+                $('#tmpImg').append(tmp)
+            })
+        }
+
+        function UploadFile(file) {
+            var token = '';
+            $.ajax({
+                url: "/Pic/Token",
+                dataType: "json",
+                type: "get",
+                async: false,
+                success: function (res) {
+                    token = res.Data;
+                }
+            })
+            var observer = qiniu.upload(file.blob, file.name, token, null, {
+                useCdnDomain: true,
+                region: qiniu.region.z1
+            });
+            observer.subscribeAction({
+                next: file.next,
+                error: file.error,
+                complete: file.complete
+            })
+        }
+
+        function converToBase64(itemTuple, cb) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+                cb && cb(e.target.result, itemTuple.fileIndex)
+            }
+            fileReader.readAsDataURL(itemTuple.item);
+        }
+        var saveImgList = [];
+        function uploadQiniu() {
+            var stepCount = imgList.length;
+            saveImgList = new Array(imgList.length);
+            imgList.forEach(function (item, index) {
+                UploadFile({
+                    index: index,
+                    blob: item.fileBlob,
+                    name: "cartoon/" + new Date() - 0 + ".jpg",
+                    next: function (res) {
+                        //item.percent = res.total.percent;
+                        //Vue.set(arr, index, item)
+                    },
+                    error: function (res) {
+                        console.log(res)
+                    },
+                    complete: function (res) {
+                        saveImgList[index] = res.key
+                        !--stepCount && saveContent();
+                    }
+                })
+            })
+        }
+
+        function saveContent() {
+            var fileEntryList = new Array(saveImgList.length);
+            saveImgList.forEach(function (item, index) {
+                fileEntryList[index] = {
+                    Name: item,
+                    ActualPath: "https://mioto.milbit.com/" + item,
+                    Order: index,
+                    Tag:'@Request.Query["Id"]'
+                }
+            })
+            $.ajax({
+                url: '/ContentEntry/AddContentMediaResource',
+                data: {
+                    contentId: '@Request.Query["Id"]',
+                    fileEntryList: fileEntryList
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res)
+                    window.location = window.location
+                }
+            })
+        }
+
+    </script>
+}

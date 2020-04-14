@@ -1,0 +1,41 @@
+login-page{
+    .login-content{
+        margin:-50px auto 0;
+        //width: 353px;
+        height: 428px;
+        border-radius: 20px;
+        background: #fff;
+        z-index: 1;
+    }
+    .login-bg{
+        height: 180px;
+        background-color: color($colors,primary);
+        box-sizing: border-box;
+        padding: 46px 0 0 21px;
+        overflow: hidden;
+        p{
+            color: #673B00;
+            font-size: 28px;
+            font-weight: bold;
+            
+        }
+    }
+    .col{
+        text-align: center;
+        .button{
+            width: 166px;
+            height: 47px;
+            border-radius: 23px;
+            margin: auto;
+            font-size: 14px;
+        }
+        .goto-reg{
+            color: color($colors,light-text);
+            font-size: 10px;
+            span{
+                color: #191D81;
+            }
+        }
+    }
+    
+}

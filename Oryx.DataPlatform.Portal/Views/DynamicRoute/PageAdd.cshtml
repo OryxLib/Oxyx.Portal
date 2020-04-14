@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewData["Title"] = "PageAdd";
+    var _type = typeof(Oryxl.DynamicPage.Model.ReponseEntry);
+}
+@model Oryxl.DynamicPage.Model.ReponseEntry;
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Page Edit</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(FormMethod.Post, new { Class = "form-horizontal" }))
+    {
+        var properties = _type.GetProperties();
+        @*<button>提交</button>*@
+        <div class="box-body">
+            @foreach (var prop in properties)
+            {
+                <div class="form-group">
+                    @switch (prop.Name.ToLower())
+                    {
+                        case "id":
+                            <input type="hidden" name="@prop.Name" value="" />
+                            break;
+                        case "routeid":
+                            <input type="hidden" id="routeid" name="@prop.Name" value="" />
+                            break;
+                        case "route":
+                            <label class="col-sm-2 control-label">@prop.Name</label>
+                            <div class="col-sm-10">
+                                <div class="treeContainer">
+                                    <input type="text" id="route" class="form-control" value="" />
+                                    <div class="treeList">
+
+                                    </div>
+                                </div>
+                            </div>
+                            break;
+                        case "masterid":
+                            <input type="hidden" id="masterid" name="@prop.Name" value="" />
+                            break;
+                        case "master":
+                            <label class="col-sm-2 control-label">@prop.Name</label>
+                            <div class="col-sm-10">
+                                <div class="treeContainer">
+                                    <input type="text" id="master" class="form-control" value="" />
+                                    <div class="treeMasterList">
+
+                                    </div>
+                                </div>
+                            </div>
+                            break;
+                        case "pagebody":
+                            <label class="col-sm-2 control-label">@prop.Name</label>
+                            <div class="col-sm-10">
+                                <div id="editor" class="form-group" style="height:500px;width:100%;"></div>
+                            </div>
+                            <textarea id="pageBody" name="@prop.Name" style="display:none;"></textarea>
+                            break;
+                        default:
+                            switch (prop.PropertyType.ToString().ToLower())
+                            {
+                                case "system.boolean":
+                                    <label class="col-sm-2 control-label">@prop.Name</label>
+                                    <div class="col-sm-10">
+                                        <input id="isMaster" type="checkbox" class="minimal" name="@prop.Name" value="" placeholder="@prop.Name">
+                                    </div>
+                                    break;
+                                default:
+                                    <label class="col-sm-2 control-label">@prop.Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="@prop.Name" value="" placeholder="@prop.Name">
+                                    </div>
+                                    break;
+                            }
+                            break;
+                    }
+                </div>
+            }
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:history.go(-1);">Go back</button>
+            <button type="submit" class="btn btn-info pull-right">Save Edit</button>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script id="topTree" type="text/template">
+        <ul class="treeview-menu" style="display:block;">
+            {itemList}
+        </ul>
+    </script>
+    <script type="text/template" id="treeItem">
+        <li class="treeview form-control" data-valueId="{itemId}" data-valueRoute="{itemRoute}" onclick="checkRoute(event)" style="cursor:pointer;">
+            {itemName}
+            {subTree}
+        </li>
+    </script>
+    <script>
+        var editor = ace.edit('editor')
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/html");
+
+        $('form').submit(function () {
+            $('#pageBody').val(editor.getValue())
+            $('input[type="checkbox"]').prop
+        })
+        $('input[type="checkbox"]').on('ifChanged', function (e) {
+            //console.log($(this).prop('checked'))
+            $(this).val($(this).prop('checked'))
+        })
+
+        var treeData = {};
+        $.ajax({
+            url: "/DynamicRoute/ApiRouteJSON",
+            type: "post",
+            dataType: "json",
+            success: function (res) {
+                if (res.success) {
+                    treeData = res.data;
+                    changeData(treeData);
+                }
+            }
+        })
+
+        function createTreeItem(data) {
+            var itemHtml = $("#treeItem").html();
+            var subdata = '';
+            if (data.children) {
+                subdata = createTree(subdata)
+            }
+            return itemHtml
+                .replace(/{itemId}/g, data.id)
+                .replace(/{itemRoute}/g, data.routeValue)
+                .replace(/{itemName}/g, data.name + " : " + data.routeValue)
+                .replace(/{subTree}/g, subdata)
+        }
+        function createTree(data) {
+            var itemHtml = $("#topTree").html();
+            var resultHtml = '';
+            if (data) {
+                for (var dataItem in data) {
+                    var dataValue = data[dataItem]
+                    resultHtml += createTreeItem(dataValue);
+                }
+            }
+            return itemHtml
+                .replace(/{itemList}/g, resultHtml)
+        }
+        function changeData(data) {
+            var treeHtml = createTree(data);
+            $(".treeList").append(treeHtml)
+        }
+        function checkRoute(e) {
+            e.preventDefault();
+            e.stopPropagation()
+            var id = $(e.target).data('valueid')
+            var route = $(e.target).data('valueroute')
+            $('#routeid').val(id);
+            $('#route').val(route)
+        }
+
+
+    </script>
+
+    @* ================================== *@
+    <script id="topMasterTree" type="text/template">
+        <ul class="treeview-menu" style="display:block;">
+            {itemList}
+        </ul>
+    </script>
+    <script id="treeItemMaster" type="text/template">
+        <li class="treeview form-control" data-valueId="{itemId}" data-valueRoute="{itemRoute}" onclick="checkMaster(event)" style="cursor:pointer;">
+            {itemName}
+            {subTree}
+        </li>
+    </script>
+    <script>
+        var treeMasterData = {};
+        $.ajax({
+            url: "/DynamicRoute/ApiPageJSON",
+            type: "post",
+            dataType: "json",
+            success: function (res) {
+                if (res.success) {
+                    treeMasterData = res.data;
+                    changeMasterData(treeMasterData);
+                }
+            }
+        })
+
+        function createMasterTreeItem(data) {
+            var itemHtml = $("#treeItemMaster").html();
+            var subdata = '';
+            if (data.children) {
+                subdata = createMasterTree(subdata)
+            }
+            return itemHtml
+                .replace(/{itemId}/g, data.id)
+                .replace(/{itemRoute}/g, data.title)
+                .replace(/{itemName}/g, data.title)
+                .replace(/{subTree}/g, subdata)
+        }
+        function createMasterTree(data) {
+            var itemHtml = $("#topMasterTree").html();
+            var resultHtml = '';
+            if (data) {
+                for (var dataItem in data) {
+                    var dataValue = data[dataItem]
+                    resultHtml += createMasterTreeItem(dataValue);
+                }
+            }
+            return itemHtml
+                .replace(/{itemList}/g, resultHtml)
+        }
+        function changeMasterData(data) {
+            var treeHtml = createMasterTree(data);
+            $(".treeMasterList").append(treeHtml)
+        }
+        function checkMaster(e) {
+            e.preventDefault();
+            e.stopPropagation()
+            var id = $(e.target).data('valueid')
+            var route = $(e.target).data('valueroute')
+            $('#masterid').val(id);
+            $('#master').val(route)
+        }
+    </script>
+}

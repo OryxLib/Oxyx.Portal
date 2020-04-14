@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>My first Three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <script src="./three.min.js"></script>
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var cube = new THREE.Mesh(geometry, material);
+        var light = new THREE.AmbientLight(0x404040); // soft white light
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(0, 1, 0);
+        scene.add(directionalLight);
+        scene.add(light);
+        scene.add(cube);
+        camera.position.z = 5;
+
+        // function render() {
+        //     requestAnimationFrame(render);
+        //     renderer.render(scene, camera);
+        //     cube.rotation.x += 0.1;
+        //     cube.rotation.y += 0.1;
+        // }
+        // render();
+
+        var raycaster = new THREE.Raycaster();
+        var mouse = new THREE.Vector2();
+
+        function onMouseMove(event) {
+
+            // calculate mouse position in normalized device coordinates
+            // (-1 to +1) for both components
+
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+        }
+
+        function render() {
+            requestAnimationFrame(render);
+            //renderer.render(scene, camera);
+            cube.rotation.x += 0.1;
+            cube.rotation.y += 0.1;
+
+
+            // update the picking ray with the camera and mouse position	
+            raycaster.setFromCamera(mouse, camera);
+
+            // calculate objects intersecting the picking ray
+            var intersects = raycaster.intersectObjects(scene.children);
+
+            for (var i = 0; i < intersects.length; i++) {
+
+                intersects[i].object.material.color.set(0xff0000);
+
+            }
+
+            renderer.render(scene, camera);
+
+        }
+
+        function loadAudio() {
+            var audioListener = new THREE.AudioListener();
+
+            // 添加该侦听器到相机中
+            camera.add(audioListener);
+
+            // 实例化一个音频（环境音）对象
+            var oceanAmbientSound = new THREE.Audio(audioListener);
+
+            // 把该对象添加到场景中去
+            scene.add(oceanAmbientSound);
+
+            // 实例化一个加载器
+            var loader = new THREE.AudioLoader();
+
+            // 通过URL加载一个资源
+            loader.load(
+                // 资源链接
+                './music.mp3',
+                // 资源加载完成后的回调函数
+                function (audioBuffer) {
+                    // set the audio object buffer to the loaded object
+                    oceanAmbientSound.setBuffer(audioBuffer);
+
+                    // 播放音频
+                    oceanAmbientSound.play();
+                },
+                // 资源加载过程中的回调函数
+                function (xhr) {;
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                // 资源下载错误的回调函数
+                function (xhr) {
+                    console.log('An error happened');
+                }
+            );
+        }
+
+        loadAudio()
+        window.addEventListener('mousemove', onMouseMove, false);
+        window.requestAnimationFrame(render);
+
+        // //创建立方体相机
+        // var cubeCamera = new THREE.CubeCamera(1, 100000, 128);
+        // scene.add(cubeCamera);
+
+        // //创建汽车
+        // var chromeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, envMap: cubeCamera.renderTarget });
+        // var car = new Mesh(carGeometry, chromeMaterial);
+        // scene.add(car);
+
+        // //更新渲染目标立方体
+        // car.setVisible(false);
+        // cubeCamera.position.copy(car.position);
+        // cubeCamera.updateCubeMap(renderer, scene);
+
+        // //绘制场景
+        // car.setVisible(true);
+        // renderer.render(scene, camera);
+    </script>
+</body>
+
+</html>

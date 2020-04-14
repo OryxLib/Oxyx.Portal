@@ -1,0 +1,58 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start *ngIf="isShowModal">
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>申请密令</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-row>
+        <ion-col>
+            <ion-item >
+                <ion-label color="light-text" floating>
+                    用户名
+                </ion-label>
+                <ion-input [(ngModel)]="userName"></ion-input>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-item >
+                <ion-label color="light-text" floating>
+                    密码
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="password"></ion-input>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-item >
+                <ion-label color="light-text" floating>
+                    重复密码
+                </ion-label>
+                <ion-input type="password" [(ngModel)]="repeatPassword"></ion-input>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <!-- <ion-col>
+            <button
+                ion-button
+                clear
+                (click)="gotoLogin($event)"
+            >
+                登录
+            </button>
+        </ion-col> -->
+        <ion-col>
+            <button ion-button class="primary" (click)="register()">
+                注册
+            </button>
+        </ion-col>
+    </ion-row>
+</ion-content>

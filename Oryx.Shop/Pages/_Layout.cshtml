@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Oryx.Shop</title>
+    <link href="~/vender/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+
+    <link href="~/vender/fontawesome-5.0.9/css/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/vender/tool/ionicons.css" rel="stylesheet" />
+    <link href="~/vender/tool/googleapis-lato.css" rel="stylesheet" />
+
+    <link href="~/vender/tool/mask.css" rel="stylesheet" />
+
+    <script src="~/vender/vue/vue.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("Styles", required: false)
+
+
+
+</head>
+<body class="skin-black">
+    <header class="header">
+        <a href="#" class="logo">home</a>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            @*@Html.Partial("_LoginPartial")*@
+        </nav>
+    </header>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+        <aside class="left-side sidebar-offcanvas">
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left info">
+                        -- username--
+                    </div>
+                </div>
+                <!-- search form -->
+                @*<form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search..." />
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>*@
+                <ul class="sidebar-menu">
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-home"></i> <span>首页</span>
+                        </a>
+                    </li>
+
+                    <li class="divider"></li>
+
+                    <li>
+                        <a href="/good/good">
+                            <i class="fa fa-list-ol"></i> <span>创建商品</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/good/list">
+                            <i class="fa fa-plus-square"></i> <span>商品列表</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-tasks"></i> <span>分类列表</span>
+                        </a>
+                    </li>
+
+                    <li class="divider"></li>
+
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-suitcase"></i> <span>1</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-plus-square"></i> <span>2</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-tasks"></i> <span>3</span>
+                        </a>
+                    </li>
+
+                    <li class="divider"></li>
+
+                    <li class="">
+                        <a href="#">
+                            <i class="fa fa-code"></i> <span>1</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <i class="fa"><b>S</b></i> <span>2</span>
+                        </a>
+                    </li>
+
+                    <li class="divider"></li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-users"></i> <span>用户管理</span>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-info-circle"></i> <span>说明</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <div class="right-side">
+            <section class="content">
+                @RenderBody()
+            </section>
+        </div>
+    </div>
+    <div id="MaskView" style="display:none;">
+        <div class="mask-message">
+            <div class="animation">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="mask"></div>
+    </div>
+    <div id="ErrorMessage" style="display:none">
+        <h6>Error !</h6>
+        <span id="closeErrorMessage" class="fa fa-times pull-right"></span>
+        <p id="error-content">添加失败</p>
+    </div>
+    <div id="SuccessMessage" style="display:none">
+        <h6>Success !</h6><p id="success-content"></p>
+    </div>
+    <div id="show-upload-file-info" style="display:none">
+        <h6><span></span><img style="display:none" src="~/Content/img/loading.gif" /></h6>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/vender/tool/mask.js"></script>
+    <script src="~/vender/Director/app.js"></script>
+    <script src="~/vender/tool/lodash.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Oryx.UserAccount.DataAccessor\Oryx.UserAccount.DataAccessor.csproj" />
+    <ProjectReference Include="..\Oryx.Utilities\Oryx.Utilities.csproj" />
+    <ProjectReference Include="..\Oryx.ViewModel\Oryx.ViewModel.csproj" />
+    <ProjectReference Include="..\Oryxl.Wx.WebApp\Oryxl.Wx.WebApp.csproj" />
+  </ItemGroup>
+
+</Project>

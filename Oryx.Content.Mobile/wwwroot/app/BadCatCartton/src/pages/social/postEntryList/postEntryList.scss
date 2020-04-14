@@ -1,0 +1,131 @@
+postEntry-list-page {
+  $userContentLeftMart: 50px;
+
+  ion-fab {
+    margin-bottom: 50px;
+  }
+
+  .userAvartImg {
+    width: 10%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .filters {
+    background-color: color($colors, primary);
+  }
+
+  .album {
+    display: none;
+  }
+
+  .userName {
+    vertical-align: middle;
+  }
+
+  .userContent {
+    margin-left: $userContentLeftMart;
+  }
+
+  .userContentMoment {
+    margin-left: $userContentLeftMart;
+  }
+
+  .postVideo {
+    width: 100%;
+  }
+
+  .refresher-refreshing svg * {
+    stroke: white !important;
+    fill: white !important;
+  }
+
+  ion-col.col {
+    padding: 0 !important;
+  }
+
+  .filters {
+    height: 44px;
+    color: #fff;
+
+    ion-col {
+      text-align: center;
+      font-size: 1.6rem;
+      line-height: 44px;
+
+
+      ion-icon {
+        color: #fff;
+      }
+
+      &.col-with-arrow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    p {
+      //color: #;
+      margin: 0;
+      font-size: 1.6rem;
+      line-height: 44px;
+      // padding-bottom: 15px;
+    }
+
+    .selected {
+      // font-weight: 700;
+      // border-bottom: solid;
+      color: color($colors, primary);
+      background: #fff;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 15px;
+      // padding-bottom: 15px;
+    }
+  }
+
+  .contentWraper {
+    height: 100%;
+    .user-name{
+      font-size: 14px;
+    }
+.update-time{
+  font-size: 12px;
+  color: color($colors, light-text);
+}
+.like-content{ 
+  flex-direction: row-reverse;
+
+  color: color($colors, light-text);
+  span{
+    margin: 5px;
+  }
+}
+    .scroll-content {
+      border-top: none;
+    }
+    img{
+      border-radius: 5px;
+      margin: 10px auto;
+    }
+  }
+
+  ion-card.card-ios {
+    margin: 0 !important;
+    width: 100%;
+  }
+
+  .scroll-content ion-card {
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .topicSpan {
+    color: color($colors, link-blue)
+  }
+
+  .swiper-slide {
+    height: 40px;
+  }
+}

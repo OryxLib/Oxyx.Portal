@@ -1,0 +1,194 @@
+﻿
+@{
+    ViewData["Title"] = "Send";
+}
+@using System.Reflection;
+@functions {
+public string getVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        return prop.GetValue(dataModel).ToString();
+    }
+    else
+    {
+        return "";
+    }
+}
+public string getCheckBoxVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        var value = prop.GetValue(dataModel).ToString();
+        if (value == "True")
+        {
+            return "checked";
+        }
+
+    }
+    return "";
+}
+}
+
+@section styles{
+    <link href="~/js/dropzone/basic.min.css" rel="stylesheet" />
+    <link href="~/js/dropzone/dropzone.min.css" rel="stylesheet" />
+    <link href="~/lib/fine-uploader/fine-uploader.min.css" rel="stylesheet" />
+    <link href="~/lib/fine-uploader/fine-uploader-new.min.css" rel="stylesheet" />
+    <link href="~/lib/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet" />
+}
+<br />
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">文件上传</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(FormMethod.Post, new { Class = "layui-form" }))
+    {
+        var properties = (ViewData["DataType"] as Type).GetProperties();
+
+        @*<button>提交</button>*@
+        <div class="box-body">
+
+            @foreach (var prop in properties)
+            {
+                <div class="form-group">
+                    @switch (prop.Name.ToLower())
+                    {
+                        case "id":
+                            <input type="hidden" id="valId" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            break;
+                        case "title":
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">标题</label>
+                                <div class="layui-input-block">
+
+                                    <input type="text" name="@prop.Name" class="layui-input" value="@getVlue(prop, ViewData["DataModel"]) " />
+                                </div>
+                            </div>
+                            break;
+                        case "description":
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">描述</label>
+                                <div class="layui-input-block">
+
+                                    <input type="text" name="@prop.Name" class="layui-input" value="@getVlue(prop, ViewData["DataModel"]) " />
+                                </div>
+                            </div>
+                            break;
+                        case "image":
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">图片</label>
+                                <div class="layui-input-block">
+                                    <label>
+                                        <img id="imgArea" src="@ViewData["DataModel"]?.ToString()" alt="" />
+                                        <input id="feildRecord" type="hidden" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                                    </label>
+                                    <label class="layui-btn">
+                                        上传
+                                        <input type="file" id="fileBtn" name="name" value="" style="display:none;" onchange="fileUpload(this)" />
+                                    </label>
+                                    <span>注: 请使用 9:5 比例图片</span> 
+                                </div>
+                            </div>
+
+                            break;
+                        case "link":
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">链接</label>
+                                <div class="layui-input-block">
+
+                                    <input type="text" name="@prop.Name" class="layui-input" style="width: 100px;" value="@getVlue(prop, ViewData["DataModel"]) " />
+                                </div>
+                            </div>
+                            break;
+                        case "order":
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">排序</label>
+                                <div class="layui-input-block">
+                                    <input type="number" class="layui-input" style="width: 100px;" @getVlue(prop, ViewData["DataModel"]) name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                                </div>
+                            </div>
+
+                            break;
+                        default:
+                            @*<label class="col-sm-2 control-label">@prop.Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="@prop.Name" value="" placeholder="@prop.Name">
+                                </div>*@
+                            break;
+                    }
+                </div>
+            }
+        </div>
+        <!-- /.box-body -->
+        @*<div class="box-footer">
+                <button type="button" class="btn btn-default" onclick="javascript:history.go(-1);">Go back</button>
+                <button type="submit" class="btn btn-info pull-right">Save Edit</button>
+            </div>*@
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-primary" onclick="javascript:history.go(-1);">回退</button>
+                <button lay-submit class="layui-btn " lay-filter="btnSubmit">提交</button>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+
+        //Demo
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(btnSubmit)', function (data) {
+                //layer.msg(JSON.stringify(data.field));
+                var tags = [];
+                var tmpTags = eval(data.field.tags);
+                for (var index in tmpTags) {
+                    var item = tmpTags[index];
+                    tags.push({
+                        name: item.value
+                    })
+                }
+                data.field.tags = tags;
+                $.ajax({
+                    url: '/Banners/AddOrUpdate',
+                    dataType: 'json',
+                    type: 'post',
+                    data: data.field,
+                    success: function (res) {
+                        if (res.success) {
+                            layer.msg('添加成功!');
+                        } else {
+                            layer.msg('添加失败' + res.msg);
+                        }
+                        setTimeout(function () { window.location.reload(); }, 400);
+                    }
+                })
+                return false;
+            });
+        });
+        function fileUpload(ele) {
+            var formData = new FormData();
+            var fileEle = document.querySelector('#fileBtn');
+            formData.append("file", fileEle.files[0])
+            $.ajax({
+                url: '/Pic/Upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    $('#imgArea').prop('src', res.data[0].actualPath)
+                    $('#feildRecord').val(res.data[0].actualPath)
+                }
+            })
+            ele.value = ''
+        }
+
+    </script>
+}
+

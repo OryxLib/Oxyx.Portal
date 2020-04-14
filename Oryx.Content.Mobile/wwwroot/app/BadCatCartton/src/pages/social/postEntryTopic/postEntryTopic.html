@@ -1,0 +1,88 @@
+<ion-header class="cateDetail" [style]='bdImg'>
+
+  <div [style]='bdImg'></div>
+  <ion-toolbar no-border>
+    <ion-buttons start>
+      <button ion-button icon-only color="royal" (click)="goBack()">
+        <!-- <ion-icon name="arrow-back"></ion-icon> -->
+        返回
+      </button>
+    </ion-buttons>
+    <ion-title> </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal" (click)="sharePage()">
+        <!-- <ion-icon name="share-alt"></ion-icon> -->
+        分享
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-content style="height: 100%;">
+    <ion-refresher (ionRefresh)="doRefresh($event)" startY="300">
+      <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="加载中..."></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-row *ngIf="topicInfoItem">
+      <ion-col col-12 text-center>
+        <div>
+          <div padding text-center class="converImgContainer" [ngStyle]="{'background-image': 'url(' + converImg + ')'}">
+            <div class="cateName">{{topicInfoItem.linkedCartoonName}}</div>
+            <div>
+              <span>
+                {{topicInfoItem.topicPosterName}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <ion-card *ngFor="let item of postEntryList">
+          <ion-item>
+            <ion-avatar item-start (click)="goSocialInfo(item)">
+              <img [src]="item.userInfo.avatar||'/assets/avarta/userAvarta1.png'">
+            </ion-avatar>
+            <ion-label (click)="goSocialInfo(item)">
+              <h2>{{item.userInfo.nickName}}</h2>
+              <p>{{item.userInfo.nirthDay}}</p>
+            </ion-label>
+            <button ion-button outline item-end type="button" (click)="subscribe(item.userInfo.id)" *ngIf="!IsSubscribed">
+              关注
+            </button>
+          </ion-item>
+          <div *ngIf="item.imageList.length==1" (click)="gotoDetail(item.id)">
+            <img *ngIf="item.imageList[0].type==0;else videocontent" [src]="item.imageList[0].actualPath">
+            <ng-template #videocontent>
+              <video class="postVideo" loop controls [src]="item.imageList[0].actualPath"></video>
+            </ng-template>
+          </div>
+          <ion-card-content text-left [innerHtml]="item.content" (click)="gotoDetail(item.id)"></ion-card-content>
+          <ion-slides *ngIf="item.imageList.length>1" pager (click)="gotoDetail(item.id)">
+            <ion-slide *ngFor="let img of item.imageList">
+              <img [src]="img.actualPath">
+            </ion-slide>
+          </ion-slides>
+          <div text-left padding-left *ngIf="item.postEntryTopic" (click)="gotoTopic(item.postEntryTopic)">#{{item.postEntryTopic}}</div>
+          <ion-row>
+            <ion-col>
+              <button ion-button icon-start clear small>
+                <ion-icon name="thumbs-up"></ion-icon>
+                <div>{{item.likeNum}}</div>
+              </button>
+            </ion-col>
+            <ion-col>
+              <button ion-button icon-start clear small (click)="gotoDetail(item.id)">
+                <ion-icon name="text"></ion-icon>
+                <div>{{item.commentNum}}</div>
+              </button>
+            </ion-col>
+            <ion-col center text-center style="display: flex;align-items: center;">
+              <ion-note>{{updateDatetime(item.timeStamp)}}</ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-content>

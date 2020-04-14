@@ -1,0 +1,21 @@
+﻿.list-view {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.list-view-item {
+    width: 18%;
+    /*height: 400px;*/
+    margin: 15px;
+    border: 1px solid #eee;
+    box-shadow: 10px 10px 5px #aaa
+}
+
+.list-view-body {
+    height: 360px;
+    max-height: 360px;
+    overflow: auto;
+}
+
+.list-view-item img {
+}

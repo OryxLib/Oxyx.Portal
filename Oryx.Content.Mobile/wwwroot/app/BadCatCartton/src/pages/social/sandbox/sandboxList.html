@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>四次元结界</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <div>
+        <ion-segment [(ngModel)]="sandboxType">
+          <ion-segment-button value="official">官方消息</ion-segment-button>
+          <ion-segment-button value="social">社交消息</ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <div [ngSwitch]="sandboxType">
+        <ion-row *ngSwitchCase="'official'">
+          <ion-col col-4 text-center *ngFor="let item of contentList">
+            <div (click)="itemSelected(item)">
+              <img [src]="item.imgUrl">
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-list *ngSwitchCase="'social'">
+          <ion-item *ngFor="let item of myPostEntryList">
+            <div>{{item.content}}</div>
+            <div *ngIf="item.imageList.length==1">
+              <img *ngIf="item.imageList[0].type==0;else videocontent" [src]="item.imageList[0].actualPath">
+              <ng-template #videocontent>
+                <video class="postVideo" loop controls [src]="item.imageList[0].actualPath"></video>
+              </ng-template>
+            </div>
+            <div>{{updateDatetime(item.timeStamp)}}</div>
+          </ion-item>
+        </ion-list>
+        <ion-list *ngSwitchCase="'comments'">
+          <ion-item *ngFor="let item of contentList">
+            <ion-thumbnail item-start>
+              <img [src]="item.imgUrl">
+            </ion-thumbnail>
+            <h2>{{item.title}}</h2>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

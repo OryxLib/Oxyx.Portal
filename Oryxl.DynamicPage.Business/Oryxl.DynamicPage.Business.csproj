@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Oryxl.DynamicPage.Accessor\Oryxl.DynamicPage.Accessor.csproj" />
+    <ProjectReference Include="..\Oryxl.DynamicPage.Model\Oryxl.DynamicPage.Model.csproj" />
+  </ItemGroup>
+
+</Project>

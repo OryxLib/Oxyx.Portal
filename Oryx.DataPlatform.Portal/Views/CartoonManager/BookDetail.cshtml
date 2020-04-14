@@ -1,0 +1,226 @@
+﻿@using Content.Model;
+@{
+    ViewData["Title"] = "内容分类";
+}
+@section styles{
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/lib/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .layui-card-header {
+            height: auto;
+        }
+
+        .layui-card {
+            margin: 30px;
+        }
+    </style>
+}
+
+
+<div>
+    <span class="layui-breadcrumb">
+        <a href="/">首页</a>
+        <a href="/demo/">演示</a>
+        <a><cite>导航元素</cite></a>
+    </span>
+</div>
+<div style="margin:20px auto;">
+    <a id="btnAdd" class="layui-btn">添加章节</a>
+    <a id="btnAddMulti" class="layui-btn">批量添加章节</a>
+</div>
+@{
+
+    var dataModel = ViewData["DataModel"] as List<ContentEntry>;
+}
+<div class="layui-row">
+
+    @foreach (var item in dataModel)
+    {
+        <div class="layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">@item.Title</div>
+                <div class="layui-card-body">
+                    <a href="/CartoonManager/BookPageDetail?Id=@item.Id">查看</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+@*<table id="contentDataTable" class="table table-hover table-bordered table-striped dataTable">
+        <thead>
+            <tr>
+                <th width="15%" scope="col">标题</th>
+                <th width="30%" scope="col">简述</th>
+                <th width="15%" scope="col">封面</th>
+                <th width="10%" scope="col">链接</th>
+                <th width="10%" scope="col">操作</th>
+            </tr>
+        </thead>
+    </table>*@
+
+@section Scripts{
+    <script>
+
+         function addChapter() {
+            $.ajax({
+                url: '/ContentEntry/AddContent',
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    Title: $('#.layui-layer-content txtChapterName').val(),
+                    Content: '',
+                    Order: $('#.layui-layer-content txtChapterCount').val()
+                },
+                success: function (res) {
+                    console.log(res)
+                    window.location = window.location;
+                }
+            })
+        }
+
+        function addChapterMulti() {
+            $.ajax({
+                url: '/ContentEntry/AddMultiContents',
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    pid: '@ViewContext.RouteData.Values["Id"]',
+                    contentName: $('.layui-layer-content #multiChapterName').val(),
+                    count: $('.layui-layer-content #multiChapterCount').val()
+                },
+                success: function (res) {
+                    console.log(res)
+                    window.location = window.location;
+                }
+            })
+        }
+        layui.use('layer', function () {
+            var layer = layui.layer;
+            layui.$('#btnAddMulti').click(function () {
+                layer.open({
+                    title: "批量新增漫画",
+                    content: layui.$('#newCartoonIdMulti').html()
+                    , btn: ['确认', '取消']
+                    , yes: function (index, layero) {
+                        //按钮【按钮一】的回调
+                        addChapterMulti()
+                    }
+                    , btn2: function (index, layero) {
+                        //按钮【按钮二】的回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    , btn3: function (index, layero) {
+                        //按钮【按钮三】的回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    , cancel: function () {
+                        //右上角关闭回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            })
+            layui.$('#btnAdd').click(function () {
+                layer.open({
+                    title: "新增漫画",
+                    content: layui.$('#newCartoonId').html()
+                    , btn: ['确认', '取消']
+                    , yes: function (index, layero) {
+                        //按钮【按钮一】的回调
+                        addChapter()
+                    }
+                    , btn2: function (index, layero) {
+                        //按钮【按钮二】的回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    , btn3: function (index, layero) {
+                        //按钮【按钮三】的回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    , cancel: function () {
+                        //右上角关闭回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            })
+        })
+
+
+        $("#contentDataTable").DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': false,
+            'autoWidth': false,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/CartoonManager/Table",
+                "type": "POST"
+            },
+            "columns": [
+                { "data": "name" },
+                { "data": "description" },
+                { "data": "mediaResource" },
+                { "data": "link" },
+                { "data": "operation" }
+            ],
+            "columnDefs": [
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        var status = row['status'] == 1 ? "[下架]" : "[上架]";
+
+                        return status + "<span>" + row["name"] + "</span>"
+                    },
+                    "targets": 0
+                },
+                {
+                    "visible": true, "targets": 1
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        //return "<a href='/ContentManager/Contents/ContentDetail?pid=" + row["Id"] + "'>查看</a>"
+                        var imgPath = (row["mediaResource"] && row["mediaResource"].length > 0) ? row["mediaResource"][0].ActualPath : '';
+                        imgPath = imgSrcFilter(imgPath)
+                        return "<img src='" + imgPath + "' style='height:100px;'/>"
+                    },
+                    "targets": 2
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        return "<a href='/ContentManager/Contents/ContentDetail?pid=" + row["id"] + "'>查看</a>"
+                    },
+                    "targets": 3
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        return "<a href='/ContentManager/Contents/ContentDetail?pid=" + row["id"] + "'>查看</a>" +
+                            "<button type= 'submit' class='btn btn-info pull-right' onclick=\"setCloseCategory('" + row["id"] + "')\"> 下架</button >";
+                    },
+                    "targets": 4
+                }]
+        })
+
+        function imgSrcFilter(imgSrc) {
+            if (!imgSrc) {
+                return '';
+            }
+            return imgSrc.replace(/http\:\/\/i-1\.gumua\.com\//g, 'http://cartoon.oryxl.com/imgproxy/');
+        }
+
+    </script>
+
+
+}

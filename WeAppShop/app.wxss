@@ -1,0 +1,38 @@
+/**app.wxss**/
+
+page {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background-image: url(https://mioto.milbit.com/shopping/6.26%E8%8D%B7%E8%8A%B1.jpg);
+  background-position: 75%;
+  background-size: auto 100%;
+}
+
+.wxParse-img {
+  display: block !important;
+}
+
+button {
+  background-image: url(https://mioto.milbit.com/shopping/btnWanzi.png);
+  background-color: transparent;
+  background-size: 100%;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border: none;
+}
+
+button::after {
+  border: none;
+}
+
+.btn-hover {
+  background-color: transparent;
+}

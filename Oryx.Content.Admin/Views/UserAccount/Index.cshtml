@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewData["Title"] = "用户管理";
+}
+
+<h2>用户管理</h2>
+<div>
+    <a href="/UserAccount/AddOrUpdate" class="btn btn-primary"> 新增用户</a>
+</div>
+<table id="contentDataTable" class="table table-hover table-bordered table-striped dataTable">
+    <thead>
+        <tr>
+            <th width="15%" scope="col">昵称</th>
+            <th width="15%" scope="col">手机号</th>
+            <th width="15%" scope="col">用户名</th>
+            <th width="15%" scope="col">权限</th>
+            @*<th width="30%" scope="col">内容</th>
+                <th width="15%" scope="col">常见问题</th>
+                <th width="10%" scope="col">置顶</th>*@
+            <th width="10%" scope="col">操作</th>
+        </tr>
+    </thead>
+</table>
+@section scripts{
+    <script>
+
+        function imgSrcFilter(imgSrc) {
+            if (!imgSrc) {
+                return '';
+            }
+            return imgSrc.replace(/http\:\/\/i-1\.gumua\.com\//g, 'http://cartoon.oryxl.com/imgproxy/');
+        }
+
+        $("#contentDataTable").DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': false,
+            'autoWidth': false,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/UserAccount/Table",
+                "type": "POST"
+            },
+            "columns": [
+                { "data": "nickName" },
+                { "data": "phone" },
+                { "data": "userName" },
+                { "data": "Operation" }
+            ],
+            "columnDefs": [
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        //var status = row['Status'] == 1 ? "[下架]" : "[上架]";
+
+                        //return status + "<span>" + row["Name"] + "</span>"
+                        return row['nickName']
+                    },
+                    "targets": 0
+                },
+                {
+                    "visible": true, "targets": 1,
+                    "render": function (data, type, row) {
+                        //var status = row['Status'] == 1 ? "[下架]" : "[上架]";
+
+                        //return status + "<span>" + row["Name"] + "</span>"
+                        return row['phone']
+                    },
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        return row['userName']
+                    },
+                    "targets": 2
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+
+                        return '<span>' + (row['roles'][0] && row['roles'][0]['roleName']) + '</span><a href="/UserAccount/ChangeRole?Id=' + row['id'] + '">修改</a>'
+                    },
+                    "targets": 3
+                },
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        return "<a href='/UserAccount/AddOrUpdate?Id=" + row["id"] + "'>查看</a>" +
+                            "<button type= 'submit' class='btn btn-danger pull-right' onclick=\"delContent('" + row["id"] + "')\"> 删除</button >";
+                    },
+                    "targets": 4
+                }
+            ]
+        })
+        var tagify = $('#tagsInput').tagify()
+
+        function addNew() {
+            var tags = []
+            tagify[0].value && tagify[0].value.split(',').forEach(function (item) {
+                tags.push({
+                    Name: item
+                })
+            })
+
+        }
+
+        function delContent(categoryId) {
+            $.ajax({
+                url: '/UserAccount/Delete',
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    Id: categoryId
+                },
+                success: function (res) {
+                    if (res.success) {
+                        $('.callout-success').show();
+                        setTimeout(function () {
+                            $('.callout-success').hide();
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        $('.callout-danger').show();
+                        setTimeout(function () {
+                            $('.callout-danger').hide();
+                            window.location.reload();
+                        }, 2000)
+                    }
+                }
+            })
+        }
+    </script>
+}

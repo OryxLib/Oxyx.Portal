@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{toUserInfo.nickName}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content #msgList>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <ion-list>
+    <ng-template ngFor let-item [ngForOf]="chatMessageList" let-i="index">
+      <ion-item *ngIf="showDateAnchor(item.timeStamp)" text-center>
+        {{showDateTime(item.timeStamp)}}
+      </ion-item>
+      <ion-item *ngIf="toUserInfo.id==item.fromUserId">
+        <ion-avatar item-start>
+          <img [src]="toUserInfo.avatar">
+        </ion-avatar>
+        <h3>{{item.content||item.messageContent}}</h3>
+      </ion-item>
+      <ion-item *ngIf="toUserInfo.id!=item.fromUserId" class='selfInfo'>
+        <div class="txtContainer">
+          <span>{{item.content||item.messageContent}}</span>
+        </div>
+        <ion-avatar>
+          <img [src]="fromUserInfo.avatar">
+        </ion-avatar>
+      </ion-item>
+    </ng-template>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col col-9>
+        <ion-input placeholder="次元波" clearInput [(ngModel)]="txtMsg"></ion-input>
+      </ion-col>
+      <ion-col col-3>
+        <button ion-button (click)="sendMsg()">
+          发送
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

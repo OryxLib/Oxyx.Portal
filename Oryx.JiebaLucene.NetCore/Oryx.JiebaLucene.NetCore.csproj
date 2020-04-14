@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="lucene.net" Version="4.8.0-beta00005" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Jieba.Segmenter\Jieba.Segmenter.csproj" />
+  </ItemGroup>
+
+</Project>

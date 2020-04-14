@@ -1,0 +1,9 @@
+﻿本项目需扩展三个包
+install-package System.Reflection.Emit 
+install-package System.Reflection.Emit.ILGeneration 
+install-package System.Reflection.Emit.ILGeneration
+
+install-package  System.Dynamic.Runtime 
+install-package  Microsoft.CSharp
+
+install-package System.Security.Permissions

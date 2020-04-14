@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "ChangeRole";
+}
+@using System.Reflection;
+@using Oryx.UserAccount.Model.UserBusinessExtend;
+@using Oryx.UserAccount.Business;
+@functions{
+    public string checkValue(string str, string str2)
+    {
+        if (str == str2)
+        {
+            return "selected";
+        }
+        return string.Empty;
+    }
+}
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">编辑用户</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(FormMethod.Post, new { Class = "form-horizontal" }))
+    {
+        var properties = (ViewData["DataType"] as Type).GetProperties();
+        var userRole = ViewData["DataModel"] as List<string>;
+        var role = "";
+
+        if (userRole != null && userRole.Count > 0)
+        {
+            role = userRole[0];
+        }
+
+        @*<button>提交</button>*@
+        <div class="box-body">
+            <form class="form-horizontal" id="appVotingCreate">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">权限</label>
+                        <div class="col-sm-10">
+                            <select class="form-control select2" name="roleName" style="width: 100%;">
+                                <option value="@UserAccountBusiness.GeneralUserRoleKey" @checkValue(role, UserAccountBusiness.GeneralUserRoleKey)> 一般用户</option>
+                                <option value="@UserAccountBusiness.SpecialUserRoleKey" @checkValue(role, UserAccountBusiness.SpecialUserRoleKey)>特殊用户</option>
+                                <option value="@UserAccountBusiness.AdminUserRoleKey" @checkValue(role, UserAccountBusiness.AdminUserRoleKey)>管理员</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>   
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button type="button" class="btn btn-default" onclick="javascript:history.go(-1);">Go back</button>
+                    <button type="submit" class="btn btn-info pull-right">Save Edit</button>
+                </div>
+            </form>
+
+        </div>
+
+    }
+</div>

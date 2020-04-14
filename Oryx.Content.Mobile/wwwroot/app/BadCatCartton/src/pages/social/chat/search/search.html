@@ -1,0 +1,40 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-buttons start>
+            <button
+                ion-button
+                (click)="dismiss()"
+            >
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>通灵之眼</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar
+        [(ngModel)]="searchUserName"
+        (ionInput)="onInput($event)"
+        debounce="300"
+    >
+    </ion-searchbar>
+    <ion-row>
+        <ion-col
+            col-12
+            text-center
+        >
+            <div
+                *ngFor="let item of chatUserLsit"
+                (click)="chatWith(item)"
+            >
+                {{item.nickName}}
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

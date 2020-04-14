@@ -1,0 +1,20 @@
+@import "./colors.scss";
+
+// $tabs-ios-tab-text-color:color($colors,primary);
+
+// $tabs-ios-tab-text-color-active:color($colors,primary);
+
+// $tabs-ios-tab-icon-color:color($colors,primary);
+
+// $tabs-ios-tab-color-inactive:color($colors,primary);
+
+.version1{
+    .tab-button[aria-selected=true] {
+        ion-icon.tab-button-icon{
+            color:color($colors,primary);
+        }
+        .tab-button-text{
+            color:color($colors,primary);
+        }
+    } 
+}

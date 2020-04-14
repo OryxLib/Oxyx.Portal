@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewData["Title"] = "文件管理";
+}
+<div class="backupContainer">
+    <h2>备份管理</h2>
+    <div>
+        <button class="btn btn-primary" onclick="create();">创建备份</button>
+    </div>
+    <table id="contentDataTable" class="table table-hover table-bordered table-striped dataTable">
+        <thead>
+            <tr>
+                <th width="15%" scope="col">路径</th>
+                <th width="10%" scope="col">操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+
+        function imgSrcFilter(imgSrc) {
+            if (!imgSrc) {
+                return '';
+            }
+            return imgSrc.replace(/http\:\/\/i-1\.gumua\.com\//g, 'http://cartoon.oryxl.com/imgproxy/');
+        }
+
+        $("#contentDataTable").DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': false,
+            'autoWidth': false,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/DbBackup/Table",
+                "type": "POST"
+            },
+            "columns": [
+                { "data": "path" },
+                { "data": "Operation" }
+            ],
+            "columnDefs": [
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        //var status = row['Status'] == 1 ? "[下架]" : "[上架]";
+
+                        //return status + "<span>" + row["Name"] + "</span>"
+                        return row['path']
+                    },
+                    "targets": 0
+                },
+
+                {
+                    "visible": true,
+                    "render": function (data, type, row) {
+                        return "<button class='btn btn-warn' onclick='restore(\'" + row['path'] + "\')'>还原</button>"
+                            + "<button type= 'submit' class='btn btn-danger pull-right' onclick=\"delContent('" + row["path"] + "')\"> 删除</button >";
+                    },
+                    "targets": 1
+                }
+            ]
+        })
+        var tagify = $('#tagsInput').tagify()
+
+        function create() {
+            $('.backupContainer').loading('start')
+            $.ajax({
+                url: '/DbBackup/SaveBackup',
+                dataType: 'json',
+                type: 'post',
+                success: function (res) {
+                    if (res.success) {
+                        $('.callout-success').show();
+                        setTimeout(function () {
+                            $('.callout-success').hide();
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        $('.callout-danger').show();
+                        setTimeout(function () {
+                            $('.callout-danger').hide();
+                            window.location.reload();
+                        }, 2000)
+                    }
+                }, error: function (err) {
+                    console.log(err)
+                }, complete: function () {
+                    $('.backupContainer').loading('stop')
+                }
+            })
+        }
+
+        function restore(path) {
+            $('.backupContainer').loading('start')
+            $.ajax({
+                url: '/DbBackup/Restore',
+                dataType: 'json',
+                data: {
+                    path: path
+                },
+                type: 'post',
+                success: function (res) {
+                    if (res.success) {
+                        $('.callout-success').show();
+                        setTimeout(function () {
+                            $('.callout-success').hide();
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        $('.callout-danger').show();
+                        setTimeout(function () {
+                            $('.callout-danger').hide();
+                            window.location.reload();
+                        }, 2000)
+                    }
+                }, error: function (err) {
+                    console.log(err)
+                }, complete: function () {
+                    $('.backupContainer').loading('stop')
+                }
+            })
+        }
+
+        function addNew() {
+            var tags = []
+            tagify[0].value && tagify[0].value.split(',').forEach(function (item) {
+                tags.push({
+                    Name: item
+                })
+            })
+
+        }
+
+        function delContent(path) {
+            $.ajax({
+                url: '/DbBackup/Delete',
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    path: path
+                },
+                success: function (res) {
+                    if (res.success) {
+                        $('.callout-success').show();
+                        setTimeout(function () {
+                            $('.callout-success').hide();
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        $('.callout-danger').show();
+                        setTimeout(function () {
+                            $('.callout-danger').hide();
+                            window.location.reload();
+                        }, 2000)
+                    }
+                }, error: function (err) {
+                    console.log(err)
+                }
+            })
+        }
+    </script>
+}

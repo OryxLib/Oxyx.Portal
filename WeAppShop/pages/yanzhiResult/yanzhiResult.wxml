@@ -1,0 +1,14 @@
+<view class='container'>
+  <text>
+      哇塞! 颜值 {{score}} 获得 七折打折券 !
+  </text>
+  <view class='txBorder'>
+     <image class='txImg' src='https://mioto.milbit.com/shopping/testface.jpg'></image> 
+  </view>
+  <view>
+    <button open-type='share'>转发</button>
+    <button bindtap='shareImg'>分享</button>
+  </view>
+  <canvas canvas-id='qrcode' style='position:absolute;left:-1200px;width:275px;height:392px;'></canvas>
+  <!-- <canvas canvas-id='qrcode' style='position:absolute;left:-1200px;width:375px;height:592px;'></canvas> -->
+</view>

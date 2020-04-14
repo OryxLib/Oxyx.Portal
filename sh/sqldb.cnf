@@ -1,0 +1,35 @@
+[ndb_mgmd default]
+datadir=/usr/local/mysql/ndbdata
+[ndbd default]
+NoOfReplicas=2      # Number of replicas 
+#Directory for Data Node
+DataDir=/var/lib/mysql-cluster
+
+[ndb_mgmd]
+#Management Node db1
+NodeId=1
+HostName=172.19.16.170
+#mysql pwd 69sb0_,w2bvB
+
+
+[ndbd]
+#Data Node db2
+NodeId=2
+HostName=172.19.16.166
+DataDir=/usr/local/mysql/data
+ 
+[ndbd]
+#Data Node db3
+NodeId=3
+HostName=172.19.16.167
+DataDir=/usr/local/mysql/data
+ 
+[mysqld]
+#SQL Node db4
+NodeId=4
+HostName=172.19.16.169
+ 
+[mysqld]
+#SQL Node db5
+NodeId=5
+HostName=172.19.16.168

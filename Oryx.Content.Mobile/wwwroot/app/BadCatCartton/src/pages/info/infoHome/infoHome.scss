@@ -1,0 +1,107 @@
+.version1 {
+  info-home-page {
+    ion-navbar {
+      background-color: transparent;
+    }
+
+    ion-segment.segment {
+      border: none;
+      width: 100%;
+
+      ion-segment-button {
+        color: color($colors, light-text);
+      }
+
+      .segment-activated {
+        background-color: color($colors, primary);
+      }
+
+    }
+
+    .userInfoContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      align-items: center;
+
+      span {
+        color: color($colors, light-text);
+        margin: 10px 5px;
+        display: inline-block;
+      }
+
+      .backgroundImg {
+        height: 150px;
+        text-align: center;
+
+        float: left;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        -webkit-filter: blur(15px);
+        -moz-filter: blur(15px);
+        -o-filter: blur(15px);
+        -ms-filter: blur(15px);
+        filter: blur(15px);
+      }
+    }
+
+    ion-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin-top: -45px;
+      border: 2px solid #fff;
+      box-sizing: border-box;
+      z-index: 1;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    ion-avatar.commentItem {
+      width: 40px;
+      height: 40px;
+    }
+
+    .content-item {
+      padding: 5px;
+
+      .img-container {
+        border-radius: 10px;
+      }
+    }
+
+    .img-container {
+      width: 100%;
+      height: 150px;
+      background-color: #eee;
+
+      overflow: hidden;
+
+      img {
+        width: max-content;
+        height: 100%;
+        max-width: -webkit-fill-available;
+        object-fit: cover;
+      }
+    }
+
+    .userReloationShipContainer {
+      display: flex;
+
+      .ursItem {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+        height: 100px;
+        align-items: center;
+      }
+    }
+  }
+}

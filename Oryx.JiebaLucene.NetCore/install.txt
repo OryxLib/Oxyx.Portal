@@ -1,0 +1,2 @@
+﻿Install-Package Lucene.Net.Core -Version 4.9.0
+Install-Package Jieba.NETCore -Version 1.0.8

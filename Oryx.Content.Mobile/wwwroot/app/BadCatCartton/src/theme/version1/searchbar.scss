@@ -1,0 +1,27 @@
+@import "./colors.scss";
+
+/*搜索框背景*/
+$searchbar-ios-background-color:rgba(255, 255, 255, .2);
+$searchbar-md-background-color:rgba(255, 255, 255, .2);
+
+/*放大镜颜色*/
+$searchbar-ios-input-search-icon-color:color($colors,primary);
+$searchbar-md-input-search-icon-color:color($colors,primary);
+
+/*放大镜尺寸*/
+$searchbar-ios-input-search-icon-size:18px;
+$searchbar-md-input-search-icon-size:18px;
+
+/*文字颜色*/
+$searchbar-ios-input-text-color:color($colors,light-text);
+$searchbar-md-input-text-color:color($colors,light-text);
+
+/*placeholder 颜色*/
+$searchbar-ios-input-placeholder-color:color($colors,light-text);
+$searchbar-md-input-placeholder-color:color($colors,light-text);
+ 
+/*clear button 颜色*/
+$searchbar-ios-input-clear-icon-color:color($colors,primary);
+$searchbar-md-input-clear-icon-color:color($colors,primary);
+
+$searchbar-md-input-border-radius:20px;

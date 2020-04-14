@@ -1,0 +1,46 @@
+﻿@page "{cid?}"
+@model Oryx.Content.Portal.Pages.Contents.ContentDetailModel
+@{
+    ViewData["Title"] = Model.contentEntry.Title;
+}
+
+<div style="display:flex;flex-wrap:nowrap">
+    <a style="padding:15px 10px;" href="javascript:history.back();">返回</a>
+    <h4 style="text-align:center; width: 76%;"> @Model.contentEntry.Title</h4>
+</div>
+
+@if (Model.NeedPay)
+{
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;height:400px;align-items:center;">
+        <p style="display:block;width:100%;text-align:center;"> 当前需要支付以继续观看, 请</p>
+        <a href="/payapi/sendPay" class="btn btn-warning">支付</a>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-center flex-wrap" style="overflow:hidden;">
+
+
+                @foreach (var item in Model.contentEntry.MediaResource.OrderBy(x => x.CreateTime))
+                {
+                    var prefixPath = item.ActualPath.Contains("mioto.milbit.com") ? "" : "http://mioto.milbit.com/";
+                    <div style="width:100%;text-align:center;">
+                        <img style="width:100%;" src="@(prefixPath+item.ActualPath)" />
+                    </div>
+                }
+
+
+                @if (!string.IsNullOrEmpty(Model.PrevCid))
+                {
+                    <a href="/Contents/ContentDetail?cid=@Model.PrevCid" class="btn btn-primary">前一章</a>
+                }
+                @if (!string.IsNullOrEmpty(Model.NextCid))
+                {
+                    <a href="/Contents/ContentDetail?cid=@Model.NextCid" class="btn btn-primary">后一章</a>
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,8 @@
+[ndb_mgmd]
+HostName= 172.19.16.170
+[ndbd]
+HostName= 172.19.16.166
+[ndbd]
+HostName= 172.19.16.167
+[mysqld]
+HostName= 172.19.16.168

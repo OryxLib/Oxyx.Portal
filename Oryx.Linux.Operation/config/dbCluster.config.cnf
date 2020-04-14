@@ -1,0 +1,32 @@
+﻿[ "ndb_mgmd", "default" ]
+# Directory for MGM node log files
+DataDir=/var/lib/mysql-cluster
+ 
+[ndb_mgmd]
+#Management Node db1
+HostName=47.100.232.68
+ 
+[ndbd default]
+NoOfReplicas=2      # Number of replicas
+DataMemory=256M     # Memory allocate for data storage
+IndexMemory=128M    # Memory allocate for index storage
+#Directory for Data Node
+DataDir=/var/lib/mysql-cluster
+ 
+[ndbd]
+#Data Node db2
+HostName=106.15.183.61
+DataDir=/usr/local/mysql/data
+ 
+[ndbd]
+#Data Node db3
+HostName=47.100.181.213
+DataDir=/usr/local/mysql/data
+ 
+[mysqld]
+#SQL Node db4
+HostName=47.100.245.61
+ 
+[mysqld]
+#SQL Node db5
+HostName=47.100.62.184

@@ -1,0 +1,146 @@
+﻿@page
+@model Oryx.Content.Admin.Pages.Common.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@*<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Horizontal Form</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(FormMethod.Post, new { Class = "form-horizontal" }))
+    {
+        var properties = Model.DetailInfo.GetType().GetProperties();
+         
+        <div class="box-body">
+            @foreach (var prop in properties)
+            {
+                <div class="form-group">
+                    @switch (prop.Name.ToLower())
+                    {
+                        case "id":
+                        case "useraccountid":
+                        case "useraccount":
+                            <input type="hidden" name="@prop.Name" value="@prop.GetValue(Model.DetailInfo)" />
+                            break;
+                        case "issend":
+                            continue;
+                            <label class="col-sm-2 control-label">@prop.Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="@prop.Name" value="@prop.GetValue(Model.DetailInfo)" placeholder="@prop.Name">
+                            </div>
+                            break;
+                        case "checkedvalue":
+                            <label class="col-sm-2 control-label">Session</label>
+                            <div class="radioContainer row col-sm-10">
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue" value="0" @(Model.DetailInfo?.CheckedValue == "0" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            <span>
+                                                <span>
+                                                    Option 1:
+                                                </span>Wellness Summit only
+                                            </span>
+                                            <span>April 4, 2019</span>
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue" value="1" @(Model.DetailInfo?.CheckedValue == "1" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            <span>
+                                                <span>
+                                                    Option 2:
+                                                </span> Wellness Summit and Hong Kong Sevens (Sat)
+                                            </span>
+                                            <span>April 4 & 6, 2019 </span>
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue" value="2" @(Model.DetailInfo?.CheckedValue == "2" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            <span>
+                                                <span> Option 3: </span>Wellness Summit and Hong Kong Sevens (Sun)
+                                            </span>
+                                            <span>April 4 & 7, 2019 </span>
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue" value="3" @(Model.DetailInfo?.CheckedValue == "3" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            <span>
+                                                <span>
+                                                    Option 4:
+                                                </span> Wellness Summit and Hong Kong Sevens (Sat & Sun)
+                                            </span>
+                                            <span>
+                                                April 4, 6 & 7, 2019
+                                            </span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                            break;
+                        case "checkedvalue2":
+                            <label class="col-sm-2 control-label">Activity </label>
+                            <div class="radioContainer row col-sm-10">
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue2" value="0" @(Model.DetailInfo?.CheckedValue2 == "0" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            Hiking and lunch
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue2" value="1" @(Model.DetailInfo?.CheckedValue2 == "1" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            Boat trip and dinner
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue2" value="2" @(Model.DetailInfo?.CheckedValue2 == "2" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            Exclusive tour of in-stadium hospitality suite
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="col-sm-12">
+                                    <span class="radioItem">
+                                        <input type="radio" name="CheckedValue2" value="3" @(Model.DetailInfo?.CheckedValue2 == "3" ? "checked" : "")>
+                                        <span class="rdoTxtWrap">
+                                            I have other plans on April 5th
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                            break;
+                        default:
+                            <label class="col-sm-2 control-label">@prop.Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="@prop.Name" value="@prop.GetValue(Model.DetailInfo)" placeholder="@prop.Name">
+                            </div>
+                            break;
+                    }
+                </div>
+            }
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:history.go(-1);">Go back</button>
+            <button type="submit" class="btn btn-info pull-right">Save Edit</button>
+        </div>
+    }
+</div>*@
+

@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar> 
+        <ion-title> 设置</ion-title>
+    </ion-navbar> 
+</ion-header>
+<ion-content>
+    <ion-list>
+        <button ion-item (click)="openUserAgreement()">
+            用户协议
+        </button>
+        <button ion-item (click)="openCheckUpdate()">
+            检查更新
+        </button>
+        <button ion-item (click)="openFeedback()">
+            意见反馈
+        </button>
+        <button ion-item (click)="openChangePassword()">
+            修改密码
+        </button>
+        <button ion-item (click)="logout()">
+            退出帐号
+        </button>
+    </ion-list>
+</ion-content>

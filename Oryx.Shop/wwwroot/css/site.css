@@ -1,0 +1,699 @@
+﻿template {
+    display: none;
+}
+
+.col-line {
+    padding: 5px 0;
+}
+
+.modal-lg {
+    width: 900px;
+}
+
+.task-desc-sp {
+    color: grey;
+    font-size: 0.8em;
+}
+
+.tbl-btn {
+    margin-top: 5px;
+}
+
+.form-text {
+    padding-top: 7px;
+}
+
+table tr th {
+    text-align: center;
+}
+
+    table tr th span {
+        padding-top: 3px;
+        color: #ddd;
+    }
+
+.table-sort {
+    color: #999;
+}
+
+table tr td {
+    text-align: center;
+}
+
+.table .btn-xs {
+    margin-top: 7px !important;
+}
+
+.form-required {
+    color: red;
+    padding-left: 2px;
+    font-weight: 800;
+}
+
+.pager li input {
+    width: 75px;
+    text-align: center;
+    border-radius: 15px;
+    display: inline-block none;
+    padding: 5px 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    outline: 0 none !important;
+    /*blr:expression(this.onFocus=this.blur());*/
+}
+
+.hovor-hand {
+    cursor: pointer;
+}
+
+.table-index {
+    width: 10px;
+}
+
+.table-name {
+    width: 150px;
+}
+
+.table-type {
+    width: 130px;
+}
+
+.table-option {
+    width: 92px;
+}
+
+.table-author {
+    width: 130px;
+}
+
+.table-date {
+    width: 190px;
+}
+
+.table-date-sm {
+    color: #808080;
+    font-size: 0.8em;
+}
+
+.table-number {
+    width: 109px;
+}
+
+.table-number-sm {
+    width: 79px;
+}
+
+.table-pointer > tbody > tr {
+    cursor: pointer;
+}
+
+.table-noborder {
+    border: 0;
+    margin-bottom: 0 !important;
+}
+
+    .table-noborder tr td {
+        border: 0;
+        border-top: 0 !important;
+        text-align: left;
+    }
+
+    .table-noborder tr th {
+        border-top: 0 !important;
+        text-align: right;
+        width: 200px;
+        border: 0;
+    }
+
+.sidebar-menu .divider {
+    padding: 0 !important;
+    background-color: #3f4963; /*#39435C*/
+    height: 13px;
+    overflow: hidden;
+}
+
+header .header-type {
+    margin-right: 7px;
+    font-size: 15px;
+}
+
+header .header-author {
+    margin-left: 17px;
+    font-size: 50%;
+}
+
+header .header-date {
+    margin-left: 17px;
+    font-size: 50%;
+}
+
+.panel-headingv2 {
+    height: 53px;
+    font-size: 24px;
+}
+
+.panel-headingv1 {
+    height: 41px;
+}
+
+/* dataSet type ui */
+.label-Common {
+    background-color: #4697ce;
+    margin-left: 7px;
+}
+
+.label-FileList {
+    background-color: #fa33c6;
+    margin-left: 7px;
+}
+
+.label-Json {
+    background-color: #F05050;
+    margin-left: 7px;
+}
+
+.label-XiaoiceFM {
+    background-color: #27c24c;
+    margin-left: 7px;
+}
+
+.label-Pipeline {
+    background-color: #F05050;
+    margin-left: 7px;
+}
+
+.label-Httpcall {
+    background-color: #fa8564;
+    margin-left: 7px;
+}
+
+/* dataSet detail sarch ui */
+.search-id {
+    width: 50px;
+}
+
+.search-title {
+    margin-left: 17px;
+    margin-right: 3px;
+}
+
+.search-item {
+    width: 220px;
+}
+
+.search-go {
+    margin-left: 20px;
+}
+
+.view-tag {
+    padding: 2px 7px;
+    margin-right: 17px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.view-show {
+    border: 1px solid #c7254e99;
+    color: #b1002daa;
+    background-color: #ffe5eb;
+}
+
+    .view-show i {
+        border-left: 1px solid #c7254e99;
+        /*color: #c7254eaa;*/
+    }
+
+.view-hide {
+    border: 1px solid #999;
+    background-color: #eee;
+    color: #a1a1a1;
+}
+
+    .view-hide i {
+        border-left: 1px solid #999;
+        /*color: #a1a1a1;*/
+    }
+
+
+/* dataSet detail row ui */
+.row-del {
+    cursor: pointer;
+    border: 0px solid #ffc9b9;
+    box-shadow: #ffc9b9 -1px 1px 1px;
+    border-radius: 3px;
+    padding: 3px 8px;
+    background-color: #ffdfd6;
+    color: #fa8564;
+}
+
+.row-info {
+    cursor: pointer;
+    border: 0px solid #a0c3db;
+    box-shadow: #a0c3db -1px 1px 1px;
+    border-radius: 3px;
+    padding: 3px 7px;
+    background-color: #c8e5f8;
+    color: #01538b;
+}
+
+fieldset.data-block {
+    margin: 0 20px 30px 20px;
+    padding: 0 0 0 20px;
+    border: #ddd 1px solid;
+    border-radius: 7px;
+}
+
+    fieldset.data-block > legend {
+        padding: 0 15px;
+        width: auto;
+        border: 0;
+    }
+
+        fieldset.data-block > legend > a, span, code {
+            font-size: x-small;
+        }
+
+    fieldset.data-block > p {
+        color: #4e4b4b;
+    }
+
+        fieldset.data-block > p > b {
+            font-size: 1.1em;
+        }
+
+span.schema-info {
+    border: #ffc9b9 solid 1px;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0 20px 20px 0;
+    padding-right: 9px;
+    font-weight: 800;
+    color: #808080;
+}
+
+    span.schema-info > i {
+        display: inline-block;
+        padding: 3px 9px;
+        background-color: #fae3dd;
+        border-right: #ffc9b9 solid 1px;
+        border-radius: 5px 0 0 5px;
+        color: #fa8564;
+        margin-right: 7px;
+        font-size: 1.5em;
+    }
+
+.errorimg {
+    width: 300px;
+}
+
+.form-title {
+    text-align: right;
+    font-weight: 800;
+}
+
+
+.fitchfile {
+    background-color: #ffc1c1;
+}
+
+.page-input > a {
+    width: 79px;
+    text-align: center;
+    margin: 0px;
+    height: 34px;
+    cursor: pointer !important;
+    padding: 0px !important;
+}
+
+    .page-input > a > input {
+        border: 0;
+        background-color: #fafafa;
+        width: 99%;
+        padding: 0px;
+        margin: 0px;
+        height: 99%;
+        text-align: center;
+    }
+
+    .page-input > a > div {
+        margin: 6px 12px;
+        height: 99%;
+    }
+
+/* work stream */
+.ws-panel {
+    border: 0px;
+    border-left: solid #7fbfea 6px;
+    margin-left: 20px;
+}
+
+    .ws-panel > .ws-level {
+        position: relative;
+        margin-left: 15px;
+        padding-left: 0 !important;
+        padding-right: 20px !important;
+        margin-bottom: 55px;
+    }
+
+        .ws-panel > .ws-level > .ws-icon {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            background-color: #7fbfea;
+            border-radius: 20%;
+            text-align: center;
+            margin-left: -38px;
+            position: absolute;
+        }
+
+            .ws-panel > .ws-level > .ws-icon:after {
+                content: "";
+                border-left: 9px solid #a0c3db;
+                border-top: 7px solid transparent;
+                border-bottom: 7px solid transparent;
+                position: absolute;
+                top: 10px;
+                right: -30%;
+            }
+
+            .ws-panel > .ws-level > .ws-icon > b {
+                line-height: 38px;
+                color: white;
+                font-size: 20px;
+            }
+
+        .ws-panel > .ws-level > .ws-opt {
+            z-index: 500;
+            position: absolute;
+            background-color: rgba(33, 36, 43, 0.78);
+            padding: 3px 10px;
+            color: white;
+            border-radius: 15px;
+            top: -50px;
+            left: -50px;
+            font-size: x-large;
+        }
+
+            .ws-panel > .ws-level > .ws-opt:after {
+                content: "";
+                border-top: 13px solid rgba(33, 36, 43, 0.78);
+                border-right: 9px solid transparent;
+                position: absolute;
+                top: 41px;
+                left: 59px;
+            }
+
+            .ws-panel > .ws-level > .ws-opt > i {
+                padding: 5px;
+                margin: 0 7px;
+                cursor: pointer;
+            }
+
+        /*.ws-panel > .ws-level > .ws-opt > i[disabled] {
+                    cursor: not-allowed;
+                }*/
+
+        .ws-panel > .ws-level > .ws-block {
+            min-height: 50px;
+            margin-right: 0 !important;
+            padding: 0 !important;
+            margin-bottom: 15px;
+        }
+
+            .ws-panel > .ws-level > .ws-block > .ws-block-panel {
+                border-radius: 7px;
+                padding: 0;
+                margin: 0 15px 0 25px;
+                box-shadow: #ddd 1px 3px 5px;
+            }
+
+                .ws-panel > .ws-level > .ws-block > .ws-block-panel:hover {
+                    margin: -1px 16px 1px 24px;
+                    box-shadow: #ddd 2px 4px 6px;
+                }
+
+                .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-head {
+                    padding: 10px;
+                    height: 55px;
+                    color: white;
+                    line-height: 35px;
+                }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-head.ws-1 {
+                        background-color: #808080;
+                    }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-head.ws-2 {
+                        background-color: #7fbfea;
+                    }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-head > b {
+                        font-size: 22px;
+                    }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-head > span {
+                        line-height: 35px;
+                        margin-right: 7px;
+                        font-size: 25px;
+                        font-weight: lighter;
+                        cursor: pointer;
+                    }
+
+                .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body {
+                    border-radius: 0 0 6px 6px;
+                    background-color: #fafafa;
+                    padding: 10px;
+                }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body span {
+                        margin: 0 0 0 20px !important;
+                        padding: 5px 15px !important;
+                        box-shadow: #c6c0c0 1px 2px 3px;
+                    }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body table {
+                        padding: 10px;
+                        margin: 10px 0;
+                    }
+
+                        .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body table .ws-desc {
+                            color: #808080;
+                            font-size: small;
+                            padding-bottom: 10px !important;
+                        }
+
+                        .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body table .ws-creator {
+                            font-size: larger;
+                            margin: 0 5px 0 15px;
+                            font-weight: 600;
+                            color: #F05050;
+                        }
+
+                        .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body table .ws-createtime {
+                            font-size: smaller;
+                            color: #fa8564;
+                            font-style: normal;
+                        }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body td {
+                        padding: 2px;
+                    }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body .ws-ips > i {
+                        font-style: normal;
+                        font-size: smaller;
+                        border-radius: 3px;
+                        padding: 3px 7px;
+                        margin-right: 11px;
+                        margin-bottom: 5px;
+                        display: inline-block;
+                    }
+
+                    .ws-panel > .ws-level > .ws-block > .ws-block-panel > .ws-block-body th {
+                        padding: 2px 15px 5px 0 !important;
+                        width: 75px !important;
+                    }
+
+.ws-ips-0 {
+    background-color: #fae3dd;
+}
+
+.ws-ips-1 {
+    background-color: #ceefd6;
+}
+
+.ws-ips-2 {
+    background-color: #c8e5f8;
+}
+
+.ws-ips-3 {
+    background-color: #ddd;
+}
+/* work stream end */
+
+[disabled]:hover {
+    cursor: not-allowed !important;
+}
+
+.add-ws-icon {
+    cursor: pointer;
+    position: absolute;
+    z-index: 555;
+    background-color: rgba(0, 0, 0, 0.67);
+    color: white;
+    border-radius: 20%;
+    margin-left: -33px;
+    margin-top: -6px;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+}
+
+    .add-ws-icon:after {
+        content: "";
+        border-left: 4px solid rgba(0, 0, 0, 0.67);
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        position: absolute;
+        top: 8px;
+        right: -4px;
+    }
+
+    .add-ws-icon > i {
+        padding: 5px;
+    }
+
+.ws-ip-config td {
+    width: 25%;
+}
+
+    .ws-ip-config td > span, .ws-op-config td > span {
+        padding: 5px 9px;
+        border-radius: 5px;
+    }
+
+.ws-op-config tr:first-child {
+    width: 25%;
+}
+
+.show-item {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    z-index: 555;
+    background-color: rgba(0, 0, 0, 0.67);
+    border-radius: 9px;
+    margin-left: 73px;
+    margin-top: -26px;
+    width: 379px;
+    text-align: left !important;
+    padding: 13px 0 13px 13px;
+}
+
+    .show-item:before {
+        content: "";
+        border-right: 7px solid rgba(0, 0, 0, 0.67);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        position: absolute;
+        top: 11px;
+        left: -7px;
+    }
+
+    .show-item > p > a {
+        color: white;
+        font-size: x-small;
+    }
+
+        .show-item > p > a:hover {
+            color: #c8e5f8;
+        }
+
+        .show-item > p > a > span {
+            margin-left: 5px;
+            padding: 3px 5px;
+        }
+
+        .show-item > p > a > i {
+            margin-right: 7px;
+        }
+
+.table.table-obj tr > td, .table.table-obj tr > th {
+    text-align: left !important;
+}
+
+.table-obj {
+    margin-top: 30px;
+}
+
+    .table-obj td {
+        padding: 10px 0 !important;
+    }
+
+.obj-panel {
+    margin-left: 80px;
+}
+
+.obj-before {
+    position: absolute;
+    text-align: right;
+    margin: 5px 0 0 -75px;
+}
+
+    .obj-before button {
+        width: 65px;
+        font-weight: 600;
+    }
+
+    .obj-before i {
+        position: relative;
+        margin-right: 5px;
+    }
+
+.obj-title > a {
+    font-weight: 600;
+}
+
+    .obj-title > a:hover {
+        color: black;
+    }
+
+    .obj-title > a > span {
+        display: inline;
+    }
+
+    .obj-title > a > .title-name {
+        color: #444;
+        font-size: 21px;
+    }
+
+    .obj-title > a > span.label {
+        margin-bottom: 50px;
+    }
+
+    .obj-title > a > .title-ctime {
+        font-size: x-small;
+        color: #444;
+        padding-left: 5px;
+        font-weight: 100;
+    }
+
+.obj-body > p {
+    color: #aaa;
+    padding: 5px 0 0 20px;
+    margin-bottom: 5px !important;
+}
+
+    .obj-footer > i {
+        color: #aaa;
+        font-size: x-small;
+        margin: 0 5px;
+    }
+
+/* uploader page */
+.uploader-list .item-name {
+    font-size: 1.2em;
+    margin: 0 9px 0px 0;
+}
+

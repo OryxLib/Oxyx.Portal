@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start *ngIf="isShowModal">
+            <button ion-button (click)="dismiss()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>登录账户</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content> 
+  <div class="login-bg">
+    <p>登录账户</p>
+  </div>
+  <div class="login-content">
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label color="dark" floating>
+            用户名
+          </ion-label>
+          <ion-input [(ngModel)]="userName"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label color="dark" floating>
+            密码
+          </ion-label>
+          <ion-input [(ngModel)]="password" type="password"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+
+      <ion-col>
+        <button ion-button class="primary" (click)='login()'>
+          立即登录
+        </button>
+        <!-- <div>
+          <button ion-button class="wx" (click)="wxLogin()"></button>
+        </div> -->
+
+        <p class="goto-reg">还没有账号?
+          <span (click)="gotoReg($event)">
+            立即注册
+          </span>
+        </p>
+      </ion-col>
+      <!-- <ion-col>
+                <button ion-button clear (click)="gotoReg($event)">
+                    注册
+                </button>
+            </ion-col> -->
+    </ion-row>
+  </div>
+
+</ion-content>

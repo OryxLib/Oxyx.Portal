@@ -1,0 +1,76 @@
+{
+	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.0.8",
+	"appid": "wxc0cfce3b92e13a08",
+	"projectname": "%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%95%86%E5%9F%8E",
+	"isGameTourist": false,
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 5,
+			"list": [
+				{
+					"id": -1,
+					"name": "首页",
+					"pathName": "pages/index/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "添加地址",
+					"pathName": "pages/address-add/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "添加地址",
+					"pathName": "pages/order-details/index",
+					"query": "orderId=30465c78-b304-4a65-b8ad-d5906cae64e7"
+				},
+				{
+					"id": -1,
+					"name": "订单列表",
+					"pathName": "pages/order-list/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "拍照",
+					"pathName": "pages/yanzhi/yanzhi",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "颜值结果",
+					"pathName": "pages/yanzhiResult/yanzhiResult"
+				}
+			]
+		}
+	}
+}

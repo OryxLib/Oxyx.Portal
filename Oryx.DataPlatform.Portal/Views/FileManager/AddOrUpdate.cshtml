@@ -1,0 +1,286 @@
+﻿
+@{
+    ViewData["Title"] = "Send";
+}
+@using System.Reflection;
+@functions {
+public string getVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        return prop.GetValue(dataModel).ToString();
+    }
+    else
+    {
+        return "";
+    }
+}
+public string getCheckBoxVlue(PropertyInfo prop, object dataModel)
+{
+    if (dataModel != null)
+    {
+        var value = prop.GetValue(dataModel).ToString();
+        if (value == "True")
+        {
+            return "checked";
+        }
+
+    }
+    return "";
+}
+}
+
+@section styles{
+    <link href="~/js/dropzone/basic.min.css" rel="stylesheet" />
+    <link href="~/js/dropzone/dropzone.min.css" rel="stylesheet" />
+    <link href="~/lib/fine-uploader/fine-uploader.min.css" rel="stylesheet" />
+    <link href="~/lib/fine-uploader/fine-uploader-new.min.css" rel="stylesheet" />
+    <link href="~/lib/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet" />
+}
+<br />
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">文件上传</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    @using (Html.BeginForm(FormMethod.Post, new { Class = "form-horizontal" }))
+    {
+        var properties = (ViewData["DataType"] as Type).GetProperties();
+
+        @*<button>提交</button>*@
+        <div class="box-body">
+
+            @foreach (var prop in properties)
+            {
+                <div class="form-group">
+                    @switch (prop.Name.ToLower())
+                    {
+                        case "id":
+                            <input type="hidden" id="valId" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            break;
+                        case "name":
+                            <label class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            </div>
+                            break;
+                        case "description":
+
+                            <label class="col-sm-2 control-label">内容</label>
+                            <div class="col-sm-10">
+                                @*<textarea id="editor1" name="editor1" rows="10" cols="80"> </textarea>*@
+                                <div id="editor1">
+                                    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+                                </div>
+                                <input type="hidden" id="editorValue" name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            </div>
+                            break;
+                        case "istop":
+                            <label class="col-sm-2 control-label">置顶</label>
+                            <div class="col-sm-10">
+                                <input type="checkbox" @getCheckBoxVlue(prop, ViewData["DataModel"]) name="@prop.Name" value="True" />
+                            </div>
+                            break;
+                        case "isfaq":
+                            <label class="col-sm-2 control-label">热门问答</label>
+                            <div class="col-sm-10">
+                                <input type="checkbox" @getCheckBoxVlue(prop, ViewData["DataModel"]) name="@prop.Name" value="True" />
+                            </div>
+                            break;
+                        case "order":
+                            <label class="col-sm-2 control-label">排序</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" @getVlue(prop, ViewData["DataModel"]) name="@prop.Name" value="@getVlue(prop,ViewData["DataModel"])" />
+                            </div>
+                            break;
+                        default:
+                            @*<label class="col-sm-2 control-label">@prop.Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="@prop.Name" value="" placeholder="@prop.Name">
+                                </div>*@
+                            break;
+                    }
+                </div>
+            }
+            <div class="form-group">
+                <label class="col-sm-2 control-label">文件</label>
+                <div class="col-sm-10">
+                    <div id="fine-uploader-gallery"></div>
+                    @*<div id="dropZone" class="dropzone">
+                        </div>*@
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" class="btn btn-default" onclick="javascript:history.go(-1);">Go back</button>
+            <button type="submit" class="btn btn-info pull-right">Save Edit</button>
+        </div>
+    }
+</div>
+@section scripts{
+    <script type="text/template" id="qq-template-gallery">
+        <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
+            <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+                <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+            </div>
+            <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                <span class="qq-upload-drop-area-text-selector"></span>
+            </div>
+            <div class="qq-upload-button-selector qq-upload-button">
+                <div>Upload a file</div>
+            </div>
+            <span class="qq-drop-processing-selector qq-drop-processing">
+                <span>Processing dropped files...</span>
+                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+            </span>
+            <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+                <li>
+                    <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                    <div class="qq-progress-bar-container-selector qq-progress-bar-container">
+                        <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+                    </div>
+                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                    <div class="qq-thumbnail-wrapper">
+                        <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
+                    </div>
+                    <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
+                    <button type="button" class="qq-upload-retry-selector qq-upload-retry">
+                        <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
+                        Retry
+                    </button>
+
+                    <div class="qq-file-info">
+                        <div class="qq-file-name">
+                            <span class="qq-upload-file-selector qq-upload-file"></span>
+                            <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
+                        </div>
+                        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                        <span class="qq-upload-size-selector qq-upload-size"></span>
+                        <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
+                            <span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
+                        </button>
+                        <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
+                            <span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
+                        </button>
+                        <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
+                            <span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+
+            <dialog class="qq-alert-dialog-selector">
+                <div class="qq-dialog-message-selector"></div>
+                <div class="qq-dialog-buttons">
+                    <button type="button" class="qq-cancel-button-selector">Close</button>
+                </div>
+            </dialog>
+
+            <dialog class="qq-confirm-dialog-selector">
+                <div class="qq-dialog-message-selector"></div>
+                <div class="qq-dialog-buttons">
+                    <button type="button" class="qq-cancel-button-selector">No</button>
+                    <button type="button" class="qq-ok-button-selector">Yes</button>
+                </div>
+            </dialog>
+
+            <dialog class="qq-prompt-dialog-selector">
+                <div class="qq-dialog-message-selector"></div>
+                <input type="text">
+                <div class="qq-dialog-buttons">
+                    <button type="button" class="qq-cancel-button-selector">Cancel</button>
+                    <button type="button" class="qq-ok-button-selector">Ok</button>
+                </div>
+            </dialog>
+        </div>
+    </script>
+    @*<script src="~/js/dropzone/dropzone.min.js"></script>*@
+    <script src="~/lib/fine-uploader/fine-uploader.min.js"></script>
+    <script>
+        var galleryUploader = new qq.FineUploader({
+            element: document.getElementById("fine-uploader-gallery"),
+            template: 'qq-template-gallery',
+            request: {
+                endpoint: '/FileManager/Upload'
+            },
+            thumbnails: {
+                placeholders: {
+                    waitingPath: '/lib/fine-uploader/placeholders/not_available-generic.png',
+                    notAvailablePath: '/lib/fine-uploader/placeholders/waiting-generic.png'
+                }
+            },
+            validation: {
+                //allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']
+            },
+            callbacks: {
+                onComplete: function (id, name, res) {
+                    if (res.success) {
+                        $('#valId').val(res.data[0].id)
+                    }
+                }
+            }
+
+        });
+
+        var E = window.wangEditor
+        var $text1 = $('#editorValue')
+
+        var editor = new E('#editor1')
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'strikeThrough',  // 删除线
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+            'quote',  // 引用
+            'emoticon',  // 表情
+            'image',  // 插入图片
+            'table',  // 表格
+            //'video',  // 插入视频
+            'code',  // 插入代码
+            'undo',  // 撤销
+            'redo'  // 重复
+        ]
+        editor.customConfig.uploadImgServer = '/pic/upload'  // 上传图片到服务器
+        editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024 //图片大小限制
+        editor.customConfig.uploadImgMaxLength = 5 //一次上传图片数量
+        editor.customConfig.showLinkImg = false
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $text1.val(html)
+        }
+        editor.customConfig.uploadImgHooks = {
+            // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+            // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+            customInsert: function (insertImg, result, editor) {
+                // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+                // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+                // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+                //var url = result.url
+                if (result.success) {
+                    for (var i = 0; i < result.data.length; i++) {
+                        var item = result.data[i];
+                        insertImg(item.actualPath)
+                    }
+                }
+                //insertImg(url)
+                console.log(result)
+
+                // result 必须是一个 JSON 格式字符串！！！否则报错
+            }
+        }
+        editor.create()
+        editor.txt.html($text1.val())
+    </script>
+}
+

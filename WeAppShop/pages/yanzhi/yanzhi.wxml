@@ -1,0 +1,13 @@
+<view class='container'>
+  <view class='wrap' wx:if='{{src==""}}'>
+    <camera device-position="front" flash="off" binderror="error"></camera>
+    <button bindtap="takePhoto" hover-class="btn-hover">拍照</button>
+  </view>
+  <view class='wrap' wx:else>
+    <image mode="aspectFit" src="{{src}}"></image>
+    <view>
+      <button bindtap="clearSrc" hover-class="btn-hover">重置</button>
+      <button bindtap="sendImg" hover-class="btn-hover">使用</button>
+    </view>
+  </view>
+</view>

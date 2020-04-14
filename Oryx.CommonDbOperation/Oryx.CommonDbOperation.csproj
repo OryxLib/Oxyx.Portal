@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Oryx.Common.Model\Oryx.Common.Model.csproj" />
+    <ProjectReference Include="..\Oryx.Content.Model\Oryx.Content.Model.csproj" />
+    <ProjectReference Include="..\Oryx.DataPlatform.Model\Oryx.DataPlatform.Model.csproj" />
+    <ProjectReference Include="..\Oryx.PayLog.Model\Oryx.PayLog.Model.csproj" />
+    <ProjectReference Include="..\Oryx.Shop.Model\Oryx.Shop.Model.csproj" />
+    <ProjectReference Include="..\Oryx.Social.Model\Oryx.Social.Model.csproj" />
+    <ProjectReference Include="..\Oryx.UserActivity.Model\Oryx.UserActivity.Model.csproj" />
+    <ProjectReference Include="..\Oryxl.DynamicPage.Model\Oryxl.DynamicPage.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore\2.0.2\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.caching.abstractions\2.0.1\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
